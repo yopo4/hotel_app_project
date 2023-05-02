@@ -23,6 +23,8 @@ class User extends Authenticatable
         'avatar',
         'password',
         'random_key',
+        'hotel_name',
+        'validated',
     ];
 
     /**

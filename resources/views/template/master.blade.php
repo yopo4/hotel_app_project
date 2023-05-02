@@ -2,14 +2,12 @@
 <html lang="en">
 
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    {{-- Icon --}}
     <link rel="icon" href="{{ asset('img/logo/sip.png') }}">
-    {{-- style --}}
+    <script src="https://code.jquery.com/jquery-3.6.4.slim.js" integrity="sha256-dWvV84T6BhzO4vG6gWhsWVKVoa4lVmLnpBOZh/CAHU4=" crossorigin="anonymous"></script>
     @vite('resources/sass/app.scss')
     <title>@yield('title')</title>
     @yield('head')
@@ -20,7 +18,6 @@
         @include('template.include._navbar')
     </header>
     <main class="my-3">
-        <!-- Modal -->
         <div class="modal fade" id="main-modal" tabindex="-1" aria-labelledby="main-modalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -39,21 +36,14 @@
             </div>
         </div>
         <div class="d-flex" id="wrapper">
-            <!-- Sidebar -->
-
-            <!-- /#sidebar-wrapper -->
             @include('template.include._sidebar')
-            <!-- Page Content -->
             <div id="page-content-wrapper">
                 <div class="">
                     <div class="container-fluid">
                         @yield('content')
                     </div>
                 </div>
-                {{-- <div class="wrapfooter">
-                </div> --}}
             </div>
-            <!-- /#page-content-wrapper -->
 
         </div>
     </main>

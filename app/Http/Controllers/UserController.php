@@ -8,6 +8,7 @@ use App\Models\Customer;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 
 class UserController extends Controller
@@ -26,6 +27,13 @@ class UserController extends Controller
         return view('user.index', compact('users', 'customers'));
     }
 
+    public function unvalidated(Request $request)
+    {
+        $users = $this->userRepository->showUser($request);
+        $customers = $this->userRepository->showCustomer($request);
+        return view('user.index', compact('users', 'customers'));
+    }
+
     public function create()
     {
         return view('user.create');
@@ -34,6 +42,10 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         $user = $this->userRepository->store($request);
+        if ($user->role == 'Super') {
+            $user->where('id', $user->id)
+                 ->update(['validated' => 1]);
+        }
         return redirect()->route('user.index')->with('success', 'User ' . $user->name . ' created');
     }
 
@@ -59,11 +71,7 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        try {
-            $user->delete();
-            return redirect()->route('user.index')->with('success', 'User ' . $user->name . ' deleted!');
-        } catch (\Exception $e) {
-            return redirect()->route('user.index')->with('failed', 'Customer ' . $user->name . ' cannot be deleted! Error Code:' . $e->error_info[1]);;
-        }
+        $user->delete();
+        return redirect()->route('user.index')->with('success', 'User ' . $user->name . ' deleted!');
     }
 }

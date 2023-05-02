@@ -69,6 +69,8 @@ Route::group(['middleware' => ['auth', 'checkRole:Super,Admin']], function () {
     Route::get('/get-dialy-guest/{year}/{month}/{day}', [ChartController::class, 'dialyGuest'])->name('chart.dialyGuest');
 });
 
+Route::get('/user/{id}/valide', [UserController::class, 'valide'])->name('user.valide');
+
 Route::group(['middleware' => ['auth', 'checkRole:Super,Admin,Customer']], function () {
     Route::resource('user', UserController::class)->only([
         'show'
@@ -82,7 +84,7 @@ Route::group(['middleware' => ['auth', 'checkRole:Super,Admin,Customer']], funct
 
     Route::get('/mark-all-as-read', [NotificationsController::class, 'markAllAsRead'])->name('notification.markAllAsRead');
 
-    Route::get('/notification-to/{id}',[NotificationsController::class, 'routeTo'])->name('notification.routeTo');
+    Route::get('/notification-to/{id}', [NotificationsController::class, 'routeTo'])->name('notification.routeTo');
 });
 
 Route::view('/login', 'auth.login')->name('login');
