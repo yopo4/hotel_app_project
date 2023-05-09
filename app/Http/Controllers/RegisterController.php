@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 
-class ValidationSwitchController extends Controller
+class RegisterController extends Controller
 {
     private $userRepository;
 
@@ -20,16 +20,10 @@ class ValidationSwitchController extends Controller
         $this->userRepository = $userRepository;
     }
 
-    public function index($id)
+
+    public function store(StoreUserRequest $request)
     {
-        $storeRequest = new StoreUserRequest;
-        $updateRequest = new UpdateCustomerRequest;
-        $user = new User;
-        $this->userRepository->store($storeRequest);
-        $user->update($updateRequest->all());
-        DB::table('users')->where('id', $id)->update(['validated' => 1]);
-        echo "
-        <script>alert('ok')</script>
-        ";
+        $user = $this->userRepository->store($request);
+        return redirect()->route('dashboard.index')->with('success', 'User ' . $user->name . ' created');
     }
 }

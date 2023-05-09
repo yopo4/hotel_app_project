@@ -40,11 +40,14 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @php
+                                            $i = 1;
+                                        @endphp
                                         @forelse ($users as $user)
                                             @if ($user->validated == 1)
                                                 <tr>
                                                     <td scope="row">
-                                                        {{ ($users->currentpage() - 1) * $users->perpage() + $loop->index + 1 }}
+                                                        {{ $i }}
                                                     </td>
                                                     <td>{{ $user->name }}</td>
                                                     <td>{{ $user->email }}</td>
@@ -95,6 +98,9 @@
                                                         </a>
                                                     </td>
                                                 </tr>
+                                                @php
+                                                $i++;
+                                            @endphp
                                             @endif
                                         @empty
                                             <tr>

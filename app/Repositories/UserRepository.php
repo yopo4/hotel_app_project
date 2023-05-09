@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\User;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class UserRepository
 {
@@ -31,8 +32,15 @@ class UserRepository
             $users = $users->where('email', 'LIKE', '%' . $request->qu . '%');
         }
 
-        $users = $users->paginate(5, ['*'], 'users');
+        $users = $users->paginate(7, ['*'], 'users');
         $users->appends($request->all());
+
+        return $users;
+    }
+
+    public function showSuper()
+    {
+        $users = User::whereIn('role', ['Super'])->orderBy('id', 'DESC');
 
         return $users;
     }

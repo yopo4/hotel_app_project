@@ -20,6 +20,7 @@ use App\Http\Controllers\TypeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ValidationSwitchController;
 use App\Models\ValidationSwitchModel;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,12 +34,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-Route::get('/valide/{id}', 'UserController@valide')->name('user.valide');
-
-Route::controller(ValidationSwitchController::class)->group(function () {
+Route::controller(RegisterController::class)->group(function () {
     Route::get('/validate/{id}', 'index');
 });
+
+Route::get('/valide/{id}', 'UserController@valide')->name('user.valide');
 
 Route::group(['middleware' => ['auth', 'checkRole:Super']], function () {
     Route::resource('user', UserController::class);
@@ -86,6 +86,8 @@ Route::group(['middleware' => ['auth', 'checkRole:Super,Admin,Customer']], funct
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
+    Route::get('/waiting', [AuthController::class, 'waiting'])->name('waiting');
+
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::get('/mark-all-as-read', [NotificationsController::class, 'markAllAsRead'])->name('notification.markAllAsRead');
@@ -94,7 +96,10 @@ Route::group(['middleware' => ['auth', 'checkRole:Super,Admin,Customer']], funct
 });
 
 Route::view('/login', 'auth.login')->name('login');
+Route::view('/register', 'auth.register')->name('register');
+Route::view('/choose', 'auth.choose')->name('choose');
 Route::post('/postLogin', [AuthController::class, 'postLogin'])->name('postlogin');
+Route::post('/admin_registration', [AuthController::class, 'store'])->name('auth.store');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 

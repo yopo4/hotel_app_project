@@ -1,5 +1,5 @@
 @extends('template.auth')
-@section('title', 'Dashboard')
+@section('title', 'Register')
 @section('content')
     <link href="{{ asset('style/css/stylelogin.css') }}" rel="stylesheet">
     <div class="wavestop">
@@ -24,38 +24,63 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-12">
-                                <h5 class="card-title text-center">Sistem Informasi Perusahaan</h5>
+                                <h5 class="card-title text-center">Enter your informations</h5>
                             </div>
                         </div>
-                        <form class="form-signin" action="http://localhost:81/sip/pelamar/fungsi_daftar" method="post">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="form-label-group">
-                                        <input type="email" id="email" name="email" class="form-control" placeholder="Email"
-                                            value="" required autofocus>
-                                        <label for="email">Email</label>
+
+                        <form class="row g-3" method="POST" action="{{ route('auth.store') }}">
+                            @csrf
+                            <div class="col-md-12">
+                                <label for="name" class="form-label">Name</label>
+                                <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                    id="name" name="name" value="{{ old('name') }}">
+                                @error('name')
+                                    <div class="text-danger mt-1">
+                                        {{ $message }}
                                     </div>
-                                    <div class="form-label-group">
-                                        <input type="password" id="password" name="password" autocomplete="new-password"
-                                            class="form-control" placeholder="Password" value="" required>
-                                        <label for="password">Password</label>
-                                    </div>
-                                    <div class="form-label-group">
-                                        <input type="password" id="password_konfirmasi" name="password_konfirmasi"
-                                            class="form-control" placeholder="Repead Password" value="" required>
-                                        <label for="password_konfirmasi">Konfirmasi password</label>
-                                    </div>
-                                </div>
+                                @enderror
                             </div>
-                            <div class="row">
-                                <div class="col-lg-12 d-flex justify-content-center">
-                                    <button class="btn btn-lg btn-primary text-white btn-block text-uppercase"
-                                        type="submit">Daftar</button>
-                                </div>
+                            <div class="col-md-6">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                    id=" email" name="email" value="{{ old('email') }}">
+                                @error('email')
+                                    <div class="text-danger mt-1">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
-                            <hr class="my-4">
-                            <p class="text-center">Sudah memiliki akun? <a href="/login">masuk</a></p>
+                            <div class=" col-md-6">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control @error('password') is-invalid @enderror"
+                                    id="
+                                password" name="password"
+                                    value="{{ old('password') }}">
+                                @error('password')
+                                    <div class="text-danger mt-1">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class=" col-md-12">
+                                <label for="role" class="form-label">Role</label>
+                                <select id="role" name="role"
+                                    class="form-select @error('password') is-invalid @enderror">
+                                    <option value="Admin" @if (old('role') == 'Admin') selected @endif>Admin</option>
+                                </select>
+                                @error('role')
+                                    <div class="text-danger mt-1">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <button type="submit" class="btn btn-light shadow-sm border float-end">Create</button>
+                            </div>
                         </form>
+                        <hr class="my-4">
+                        <p class="text-center">Already registred? <a href="/login">Login</a></p>
+
                     </div>
                 </div>
             </div>
