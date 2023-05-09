@@ -47,13 +47,15 @@ npm run build
 ```
 
 ### Login:
-####As a Super:
+*As a Super:*
 - Email: super@super.com
 - Password: super
-####As an Admin:
+
+*As an Admin:*
 - Email: admin@admin.com
 - Password: admin
-####As a Customer:
+
+*As a Customer:*
 - Email: costumer@costumer.com
 - Password: costumer
 
