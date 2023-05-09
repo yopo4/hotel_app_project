@@ -18,9 +18,7 @@
                 </div>
                 <div class="col-lg-6 mb-2">
                     <form class="d-flex" method="GET" action="{{ route('user.index') }}">
-                        <input type="hidden" name="qc" value="{{ request()->input('qc') }}">
-                        <input type="hidden" name="customers" value="{{ request()->input('customers') }}">
-                        <input class="form-control me-2" type="search" placeholder="Search by name" aria-label="Search"
+                        <input class="form-control me-2" type="search" placeholder="Search by email" aria-label="Search"
                             id="search-user" name="qu" value="{{ request()->input('qu') }}">
                         <button class="btn btn-outline-dark" type="submit">Search</button>
                     </form>
@@ -43,7 +41,7 @@
                                     </thead>
                                     <tbody>
                                         @forelse ($users as $user)
-                                            @if ($user->validated == true)
+                                            @if ($user->validated == 1)
                                                 <tr>
                                                     <td scope="row">
                                                         {{ ($users->currentpage() - 1) * $users->perpage() + $loop->index + 1 }}
@@ -129,9 +127,7 @@
                 </div>
                 <div class="col-lg-6 mb-2">
                     <form class="d-flex" method="GET" action="{{ route('user.index') }}">
-                        <input type="hidden" name="qu" value="{{ request()->input('qu') }}">
-                        <input type="hidden" name="users" value="{{ request()->input('users') }}">
-                        <input class="form-control me-2" type="search" placeholder="Search by name" aria-label="Search"
+                        <input class="form-control me-2" type="search" placeholder="Search by email" aria-label="Search"
                             id="search-user" name="qc" value="{{ request()->input('qc') }}">
                         <button class="btn btn-outline-dark" type="submit">Search</button>
                     </form>
@@ -225,11 +221,19 @@
             </div>
             <div class="row justify-content-md-center mt-3">
                 <div class="col-sm-10 d-flex justify-content-md-center">
-                    {{ $customers->onEachSide(1)->appends(['users' => $users->currentPage(), 'qu' => request()->input('qu')])->links('template.paginationlinks') }}
+                    {{ $customers->onEachSide(1)->appends(['admins' => $admins->currentPage(), 'qa' => request()->input('qa')])->links('template.paginationlinks') }}
                 </div>
             </div>
         </div>
+
         <div class="row">
+            <div class="col-lg-6 mb-2">
+                <form class="d-flex" method="GET" action="{{ route('user.index') }}">
+                    <input class="form-control me-2" type="search" placeholder="Search by email" aria-label="Search"
+                        id="search-user" name="qa" value="{{ request()->input('qa') }}">
+                    <button class="btn btn-outline-dark" type="submit">Search</button>
+                </form>
+            </div>
             <div class="col-lg-12">
                 <div class="card shadow-sm border">
                     <div class="card-body">
@@ -245,34 +249,32 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ($users as $user)
-                                        @if ($user->validated == false && $user->role == 'Admin')
+                                    @forelse ($admins as $user)
+                                        @if ($user->validated == 0)
                                             <tr>
                                                 <td scope="row">
-                                                    {{ ($users->currentpage() - 1) * $users->perpage() + $loop->index + 1 }}
+                                                    {{ ($admins->currentpage() - 1) * $admins->perpage() + $loop->index + 1 }}
                                                 </td>
                                                 <td>{{ $user->name }}</td>
                                                 <td>{{ $user->email }}</td>
                                                 <td>{{ $user->role }}</td>
                                                 <td>
-                                                    <form class="btn btn-sm p-0 m-0" method="POST"
+                                                    <a class="btn btn-sm p-0 m-0" method="POST"
                                                         id="validate-post-form-{{ $user->id }}"
-                                                        action="{{ DB::table('users')->where('id', $user->id)->update(['validated' => 1]) }}">
+                                                        href="{{ route('user.valide', ['id' => $user->id]) }}">
                                                         @csrf
-                                                        @method('DELETE')
-                                                        <i class="fa-solid fa-check fa-2xl" style="color: #0cb300;"
-                                                            onclick="location.reload();"></i>
-                                                    </form>
+                                                        <i class="fa-solid fa-check fa-2xl" style="color: #0cb300;"></i>
+                                                    </a>
                                                     <form class="btn btn-sm p-0 m-0" method="POST"
                                                         id="delete-post-form-{{ $user->id }}"
-                                                        action="{{ DB::table('users')->where('id', $user->id)->delete() }}">
+                                                        action="{{ route('user.destroy', ['user' => $user->id]) }}">
                                                         @csrf
                                                         @method('DELETE')
                                                         <div class="btn btn-sm p-0 ml-2 delete"
                                                             user-id="{{ $user->id }}"
                                                             user-name="{{ $user->name }}" data-bs-toggle="tooltip"
-                                                            user-role="Admin" data-bs-placement="top" title="Delete User"
-                                                            onclick="location.reload();">
+                                                            user-role="Admin" data-bs-placement="top"
+                                                            title="Delete User">
                                                             <svg width="25" xmlns="http://www.w3.org/2000/svg"
                                                                 class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                                                                 stroke="currentColor">
@@ -302,6 +304,11 @@
                 </div>
             </div>
         </div>
+            <div class="row justify-content-md-center mt-3">
+                <div class="col-sm-10 d-flex justify-content-md-center">
+                    {{ $admins->onEachSide(1)->appends(['users' => $users->currentPage(), 'qu' => request()->input('qu')])->links('template.paginationlinks') }}
+                </div>
+            </div>
     </div>
 
 @endsection

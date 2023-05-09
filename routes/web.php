@@ -18,6 +18,8 @@ use App\Http\Controllers\RoomStatusController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TypeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ValidationSwitchController;
+use App\Models\ValidationSwitchModel;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,7 +34,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 
+Route::get('/valide/{id}', 'UserController@valide')->name('user.valide');
 
+Route::controller(ValidationSwitchController::class)->group(function () {
+    Route::get('/validate/{id}', 'index');
+});
 
 Route::group(['middleware' => ['auth', 'checkRole:Super']], function () {
     Route::resource('user', UserController::class);
@@ -69,7 +75,7 @@ Route::group(['middleware' => ['auth', 'checkRole:Super,Admin']], function () {
     Route::get('/get-dialy-guest/{year}/{month}/{day}', [ChartController::class, 'dialyGuest'])->name('chart.dialyGuest');
 });
 
-Route::get('/user/{id}/valide', [UserController::class, 'valide'])->name('user.valide');
+Route::get('validate/{id}', 'ValidationSwitchController@index');
 
 Route::group(['middleware' => ['auth', 'checkRole:Super,Admin,Customer']], function () {
     Route::resource('user', UserController::class)->only([

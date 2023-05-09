@@ -15,6 +15,9 @@ class UserRepository
         $user->password = bcrypt($userData->password);
         $user->role = $userData->role;
         $user->random_key = Str::random(60);
+        if ($user->role == 'Super') {
+            $user->validated = 1;
+        }
         $user->save();
 
         return $user;
@@ -34,6 +37,20 @@ class UserRepository
         return $users;
     }
 
+    public function showAdmin($request)
+    {
+        $users = User::whereIn('role', ['Admin'])->orderBy('id', 'DESC');
+
+        if (!empty($request->qa)) {
+            $users = $users->where('email', 'LIKE', '%' . $request->qa . '%');
+        }
+
+        $users = $users->paginate(5, ['*'], 'admins');
+        $users->appends($request->all());
+
+        return $users;
+    }
+
     public function showCustomer($request)
     {
         $customers = User::where('role', 'Customer')->orderBy('id', 'DESC');
@@ -45,4 +62,5 @@ class UserRepository
 
         return $customers;
     }
+
 }

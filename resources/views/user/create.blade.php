@@ -22,7 +22,7 @@
                         </div>
                         <div class="col-md-6">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control @error('email') is-invalid @enderror" " id=" email"
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" id=" email"
                                 name="email" value="{{ old('email') }}">
                             @error('email')
                                 <div class="text-danger mt-1">
@@ -32,7 +32,7 @@
                         </div>
                         <div class=" col-md-6">
                             <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control @error('password') is-invalid @enderror" " id="
+                            <input type="password" class="form-control @error('password') is-invalid @enderror" id="
                                 password" name="password" value="{{ old('password') }}">
                             @error('password')
                                 <div class="text-danger mt-1">

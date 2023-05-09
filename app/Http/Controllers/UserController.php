@@ -24,14 +24,8 @@ class UserController extends Controller
     {
         $users = $this->userRepository->showUser($request);
         $customers = $this->userRepository->showCustomer($request);
-        return view('user.index', compact('users', 'customers'));
-    }
-
-    public function unvalidated(Request $request)
-    {
-        $users = $this->userRepository->showUser($request);
-        $customers = $this->userRepository->showCustomer($request);
-        return view('user.index', compact('users', 'customers'));
+        $admins = $this->userRepository->showAdmin($request);
+        return view('user.index', compact('users', 'customers', 'admins'));
     }
 
     public function create()
@@ -42,10 +36,6 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         $user = $this->userRepository->store($request);
-        if ($user->role == 'Super') {
-            $user->where('id', $user->id)
-                 ->update(['validated' => 1]);
-        }
         return redirect()->route('user.index')->with('success', 'User ' . $user->name . ' created');
     }
 
@@ -73,5 +63,11 @@ class UserController extends Controller
     {
         $user->delete();
         return redirect()->route('user.index')->with('success', 'User ' . $user->name . ' deleted!');
+    }
+
+    public function valide($id)
+    {
+        DB::table('users')->where('id', $id)->update(['validated' => 1]);
+        return redirect()->route('user.index');
     }
 }

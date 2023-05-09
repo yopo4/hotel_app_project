@@ -51,6 +51,7 @@
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="{{ route('customer.index') }}">Customer</a></li>
                         @if (auth()->user()->role == 'Super')
+                            <hr>
                             <li><a class="dropdown-item" href="{{ route('user.index') }}">User</a></li>
                         @endif
                     </ul>
