@@ -84,6 +84,7 @@ class TransactionRoomReservationController extends Controller
         $occupiedRoomIdInArray = $occupiedRoomId->toArray();
 
         if (in_array($room->id, $occupiedRoomIdInArray)) {
+            echo "<script>console.log('bad')</script>";
             return redirect()->back()->with('failed', 'Sorry, room ' . $room->number . ' already occupied');
         }
 

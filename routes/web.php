@@ -40,6 +40,8 @@ Route::controller(RegisterController::class)->group(function () {
 
 Route::get('/valide/{id}', 'UserController@valide')->name('user.valide');
 
+Route::get('/transaction', 'TransactionController@index')->name('transaction.index');
+
 Route::group(['middleware' => ['auth', 'checkRole:Super']], function () {
     Route::resource('user', UserController::class);
 });
@@ -74,8 +76,6 @@ Route::group(['middleware' => ['auth', 'checkRole:Super,Admin']], function () {
     Route::get('/get-dialy-guest-chart-data', [ChartController::class, 'dialyGuestPerMonth']);
     Route::get('/get-dialy-guest/{year}/{month}/{day}', [ChartController::class, 'dialyGuest'])->name('chart.dialyGuest');
 });
-
-Route::get('validate/{id}', 'ValidationSwitchController@index');
 
 Route::group(['middleware' => ['auth', 'checkRole:Super,Admin,Customer']], function () {
     Route::resource('user', UserController::class)->only([

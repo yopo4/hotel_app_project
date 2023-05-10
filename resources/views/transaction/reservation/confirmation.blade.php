@@ -5,6 +5,8 @@
 @endsection
 @section('content')
     @include('transaction.reservation.progressbar')
+
+
     <div class="container mt-3">
         <div class="row justify-content-md-center">
             <div class="col-md-8 mt-2">
@@ -38,7 +40,7 @@
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="room_price" name="room_price"
                                             placeholder="col-form-label"
-                                            value="{{ Helper::convertToRupiah($room->price) }}" readonly>
+                                            value="{{ Helper::convertToDirhame($room->price) }}" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -75,7 +77,7 @@
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" id="total_price" name="total_price"
                                                 placeholder="col-form-label"
-                                                value="{{ Helper::convertToRupiah(Helper::getTotalPayment($dayDifference, $room->price)) }} "
+                                                value="{{ Helper::convertToDirhame(Helper::getTotalPayment($dayDifference, $room->price)) }} "
                                                 readonly>
                                         </div>
                                     </div>
@@ -84,13 +86,14 @@
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" id="minimum_dp" name="minimum_dp"
                                                 placeholder="col-form-label"
-                                                value="{{ Helper::convertToRupiah($downPayment) }} " readonly>
+                                                value="{{ Helper::convertToDirhame($downPayment) }} " readonly>
+
                                         </div>
                                     </div>
                                     <div class="row mb-3">
                                         <label for="downPayment" class="col-sm-2 col-form-label">Payment</label>
-                                        <div class="col-sm-10">
-                                            <input type="text"
+                                        <div class="col-sm-7">
+                                            <input type="text" min="{{ $downPayment }}"
                                                 class="form-control @error('downPayment') is-invalid @enderror"
                                                 id="downPayment" name="downPayment" placeholder="Input payment here"
                                                 value="{{ old('downPayment') }}">
@@ -100,12 +103,18 @@
                                                 </div>
                                             @enderror
                                         </div>
+                                        <div class="col">
+                                            <input type="button" id="setBtn" class="btn btn-primary float-end"
+                                                value="Set minimum">
+                                        </div>
+
+
                                     </div>
                                     <div class="row mb-3">
                                         <div class="col-sm-2"></div>
                                         <div class="col-sm-10" id="showPaymentType"></div>
                                     </div>
-                                    <button type="submit" class="btn btn-primary float-end">Pay DownPayment</button>
+                                    <button type="submit" id="payBtn" class="btn btn-primary float-end">Pay</button>
                                 </form>
                             </div>
                         </div>
@@ -165,11 +174,23 @@
     </div>
 @endsection
 @section('footer')
-<script>
-    $('#downPayment').keyup(function() {
-        $('#showPaymentType').text('Rp. ' + parseFloat($(this).val(), 10).toFixed(2).replace(
-                /(\d)(?=(\d{3})+\.)/g, "$1.")
-            .toString());
-    });
-</script>
+    <script>
+        var globalDownPayment;
+        $('#downPayment').keyup(function() {
+            $('#showPaymentType').text('Dh. ' + parseFloat($(this).val(), 10).toFixed(2).replace(
+                    /(\d)(?=(\d{3})+\.)/g, "$1.")
+                .toString());
+        });
+        $('#setBtn').click(function() {
+            var downPayment = {{ $downPayment }};
+            downPayment = downPayment.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            $('#downPayment').val(downPayment);
+        });
+        $('#payBtn').click(function() {
+            var downPayment = $('#downPayment').val();
+            downPayment = downPayment.replace(/\s/g, '');
+            downPayment = parseFloat(downPayment);
+            $('#downPayment').val(downPayment);
+        });
+    </script>
 @endsection

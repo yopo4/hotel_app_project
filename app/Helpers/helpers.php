@@ -7,10 +7,16 @@ use Illuminate\Support\Str;
 
 class Helper
 {
-    public static function convertToRupiah($price)
+    public static function convertToDirhame($price)
     {
-        $price_rupiah = "Rp. " . number_format($price, 2, ',', '.');
-        return $price_rupiah;
+        $price_dirhame = "Dh. " . number_format($price, 0, '', ' ');
+        return $price_dirhame;
+    }
+
+    public static function convertWithoutDirhame($price)
+    {
+        $price_dirhame = number_format($price, 0, '', ' ');
+        return $price_dirhame;
     }
 
     public static function thisMonth()
@@ -72,6 +78,6 @@ class Helper
 
     public static function getTotalPayment($day, $price)
     {
-        return $day * $price;
+        return $day * ($price*50/100);
     }
 }
