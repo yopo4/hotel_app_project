@@ -29,7 +29,8 @@ class UserSeeder extends Seeder
             'email' => 'super@super.com',
             'password' => Hash::make('super'),
             'role' => 'Super',
-            'random_key' => Str::random(60)
+            'random_key' => Str::random(60),
+            'validated'=> 1
         ]);
     }
 }
