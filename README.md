@@ -55,9 +55,6 @@ npm run build
 - Email: admin@admin.com
 - Password: admin
 
-*As a Customer:*
-- Email: customer@customer.com
-- Password: customer
 
 ## TODO:
 - Customer's Room:
