@@ -30,7 +30,7 @@ class AuthController extends Controller
             return redirect('dashboard')->with('success', 'Welcome ' . auth()->user()->name);
         }
         if (Auth::attempt($request->only('email', 'password'))) {
-            return redirect('waiting')->with('failed', 'Waiting for validation for user: ' . auth()->user()->name);
+            return redirect('waiting')->with('error', 'Waiting for validation for user: ' . auth()->user()->name);
         }
         return redirect('login')->with('failed', 'Incorrect email / password');
     }

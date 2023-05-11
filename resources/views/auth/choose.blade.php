@@ -20,7 +20,7 @@
                             </h3>
                         </div>
                         <a href="#">
-                            <img src="{{ asset('asset/customer.jpg') }}" alt="" srcset="">
+                            <img src="{{ asset('asset/customer.jpg') }}" alt="customer_img" srcset="">
                         </a>
                     </div>
                 </div>
@@ -34,7 +34,7 @@
                             </h3>
                         </div>
                         <a href="{{ route('register') }}">
-                            <img src="{{ asset('asset/admin.jpg') }}" alt="" srcset="">
+                            <img src="{{ asset('asset/owner.jpg') }}" alt="owner_img" srcset="">
                         </a>
                     </div>
                 </div>

@@ -10,17 +10,18 @@ use App\Http\Controllers\Controller;
 
 class EmailController extends Controller
 {
-    public function send($email)
+    public function send($name, $senderEmail, $receiverEmail, $message)
     {
-        // $contactName = Input::get('name');
-        // $contactEmail = Input::get('email');
-        // $contactMessage = Input::get('message');
+        $contactName = $name;
+        $contactEmail = $senderEmail;
+        $contactMessage = $message;
 
-        // $data = array('name'=>$contactName, 'email'=>$contactEmail, 'message'=>$contactMessage);
-        // Mail::send('template.mail', $data, function($message) use ($contactEmail, $contactName)
-        // {
-        //     $message->from($contactEmail, $contactName);
-        //     $message->to('info@aallouch.com', 'myName')->subject('Mail via aallouch.com');
-        // });
+        $data = array('name'=>$contactName, 'email'=>$contactEmail, 'message'=>$contactMessage);
+        Mail::send('template.mail', $data, function($message) use ($contactEmail, $contactName, $receiverEmail)
+        {
+            $message->from($contactEmail, $contactName);
+            $message->to($receiverEmail, 'Super')->subject('Mail for admin\'s validation');
+        });
+        return redirect()->route('waiting')->with('');
     }
 }

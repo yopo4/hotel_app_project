@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChartController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImageController;
@@ -18,8 +19,6 @@ use App\Http\Controllers\RoomStatusController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TypeController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\ValidationSwitchController;
-use App\Models\ValidationSwitchModel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -34,19 +33,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::controller(EmailController::class)->group(function() {
+    Route::get('/send/{name}/{senderEmail}/{receiverEmail}/{message}','send');
+});
+
 Route::controller(RegisterController::class)->group(function () {
     Route::get('/validate/{id}', 'index');
 });
 
 Route::get('/valide/{id}', 'UserController@valide')->name('user.valide');
 
-Route::get('/transaction', 'TransactionController@index')->name('transaction.index');
-
-Route::group(['middleware' => ['auth', 'checkRole:Super']], function () {
+Route::group(['middleware' => ['auth', 'checkRole:Super', 'validation']], function () {
     Route::resource('user', UserController::class);
 });
 
-Route::group(['middleware' => ['auth', 'checkRole:Super,Admin']], function () {
+Route::group(['middleware' => ['auth', 'checkRole:Super,Admin', 'validation']], function () {
     Route::post('/room/{room}/image/upload', [ImageController::class, 'store'])->name('image.store');
     Route::delete('/image/{image}', [ImageController::class, 'destroy'])->name('image.destroy');
 
@@ -77,7 +78,7 @@ Route::group(['middleware' => ['auth', 'checkRole:Super,Admin']], function () {
     Route::get('/get-dialy-guest/{year}/{month}/{day}', [ChartController::class, 'dialyGuest'])->name('chart.dialyGuest');
 });
 
-Route::group(['middleware' => ['auth', 'checkRole:Super,Admin,Customer']], function () {
+Route::group(['middleware' => ['auth', 'checkRole:Super,Admin,Customer', 'validation']], function () {
     Route::resource('user', UserController::class)->only([
         'show'
     ]);
@@ -86,14 +87,13 @@ Route::group(['middleware' => ['auth', 'checkRole:Super,Admin,Customer']], funct
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
-    Route::get('/waiting', [AuthController::class, 'waiting'])->name('waiting');
 
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::get('/mark-all-as-read', [NotificationsController::class, 'markAllAsRead'])->name('notification.markAllAsRead');
 
     Route::get('/notification-to/{id}', [NotificationsController::class, 'routeTo'])->name('notification.routeTo');
 });
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::view('/login', 'auth.login')->name('login');
 Route::view('/register', 'auth.register')->name('register');
@@ -101,7 +101,9 @@ Route::view('/choose', 'auth.choose')->name('choose');
 Route::post('/postLogin', [AuthController::class, 'postLogin'])->name('postlogin');
 Route::post('/admin_registration', [AuthController::class, 'store'])->name('auth.store');
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/waiting', [AuthController::class, 'waiting'])->name('waiting');
+
+Route::view('/', 'auth.login')->name('home');
 
 Route::get('/sendEvent', function () {
     $superAdmins = User::where('role', 'Super')->get();

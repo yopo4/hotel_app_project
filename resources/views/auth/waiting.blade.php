@@ -51,6 +51,11 @@
 
     <main>
         <div class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
+            @if (\Session::has('failed'))
+                <div class="alert alert-danger">
+                    {{ \Session::get('failed') }}
+                </div>
+            @endif
             <h1 class="">Waiting for validation...</h1>
             <h4 class="">Sorry <strong>{{ auth()->user()->name }}</strong>, but you have to wait for a super to
                 accepte your registration.</h4>
@@ -86,10 +91,29 @@
                                                     <td>{{ $super->email }}</td>
                                                     <td>{{ $super->role }}</td>
                                                     <td>
-                                                        <form class="btn btn-link p-0 m-0" action="" method="post">
-                                                            <div class="btn btn-dark btn-sm rounded shadow-sm border">
+                                                        <form class="btn btn-link p-0 m-0" action=""
+                                                            method="post">
+                                                            <div id="send-btn"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#vertically-centered"
+                                                                class="btn btn-dark btn-sm rounded shadow-sm border">
                                                                 Contact
                                                             </div>
+                                                            {{-- <x-modal id="vertically-centered"
+                                                                title="Vertically centered" :centered="true">
+                                                                <x-slot name="body">
+                                                                    Lorem ipsum dolor sit amet, consectetuer adipiscing
+                                                                    elit. Aenean commodo ligula eget dolor. Aenean
+                                                                    massa. Cum sociis natoque penatibus et magnis dis
+                                                                    parturient montes, nascetur ridiculus mus.
+                                                                </x-slot>
+                                                                <x-slot name="footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-bs-dismiss="modal">Close</button>
+                                                                    <button type="button" class="btn btn-primary">Save
+                                                                        changes</button>
+                                                                </x-slot>
+                                                            </x-modal> --}}
                                                         </form>
                                                     </td>
                                                 </tr>
