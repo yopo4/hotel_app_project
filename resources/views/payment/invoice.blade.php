@@ -23,15 +23,14 @@
         .content {
             font-size: 14px
         }
-
     </style>
 @endsection
 @section('content')
 
-    <div class="container mt-5 mb-3">
+    <div class="container mb-3">
         <div class="row d-flex justify-content-center">
             <div class="col-md-8">
-                <div class="card">
+                <div class="card" id="invoice-card">
                     <div class="d-flex flex-row p-2"> <img src="{{ asset('img/logo/sip.png') }}" width="48">
                         <div class="d-flex flex-column"> <span class="font-weight-bold">Invoice</span>
                             <small>INV-{{ $payment->id }}</small>
@@ -46,8 +45,10 @@
                                     <td>To</td>
                                 </tr>
                                 <tr class="content">
-                                    <td class="font-weight-bold"> {{Helper::dateDayFormat($payment->transaction->check_in)}}</td>
-                                    <td class="font-weight-bold"> {{Helper::dateDayFormat($payment->transaction->check_out)}}</td>
+                                    <td class="font-weight-bold">
+                                        {{ Helper::dateDayFormat($payment->transaction->check_in) }}</td>
+                                    <td class="font-weight-bold">
+                                        {{ Helper::dateDayFormat($payment->transaction->check_out) }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -120,6 +121,23 @@
                 </div>
             </div>
         </div>
+        <div class="row d-flex justify-content-center mt-4">
+            <input type="button" class="btn btn-dark" value="Print" id="printBtn" style="width:100px;">
+        </div>
     </div>
 
 @endsection
+<script>
+    $('#printBtn').click(function() {
+        $("#invoice-card").print({
+            globalStyles: false,
+            mediaPrint: false,
+            stylesheet: "https://fonts.googleapis.com/css?family=Roboto",
+            iframe: false,
+            noPrintSelector: ".remove_me",
+            deferred: $.Deferred().done(function() {
+                console.log('Printing done', arguments);
+            })
+        })
+    })
+</script>
