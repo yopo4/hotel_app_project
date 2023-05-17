@@ -96,7 +96,7 @@ class RoomController extends Controller
             ]);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Customer ' . $room->number . ' cannot be deleted! Error Code:' . $e->errorInfo[1]
+                'message' => 'Customer ' . $room->number . ' cannot be deleted! Error Code:' 
             ], 500);
         }
     }

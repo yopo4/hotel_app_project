@@ -10,18 +10,34 @@ use App\Http\Controllers\Controller;
 
 class EmailController extends Controller
 {
-    public function send($name, $senderEmail, $receiverEmail, $message)
-    {
-        $contactName = $name;
-        $contactEmail = $senderEmail;
-        $contactMessage = $message;
+    private $superEmail;
 
-        $data = array('name'=>$contactName, 'email'=>$contactEmail, 'message'=>$contactMessage);
-        Mail::send('template.mail', $data, function($message) use ($contactEmail, $contactName, $receiverEmail)
-        {
-            $message->from($contactEmail, $contactName);
-            $message->to($receiverEmail, 'Super')->subject('Mail for admin\'s validation');
+    public function __construct(string $superEmail = "")
+    {
+        $this->superEmail = $superEmail;
+    }
+
+    public function index($receiverEmail)
+    {
+        $this->superEmail = $receiverEmail;
+        return view('auth.email_form', compact('receiverEmail'));
+    }
+
+    public function Send(Request $request)
+    {
+        $toEmail = $this->superEmail;
+        $contactName = $request->input('name');
+        $contactEmail = $request->input('sender-email');
+        $contactMessage = $request->input('message');
+
+        if ($contactMessage = "") {
+            return redirect()->back()->with('empty', 'This field is required.');
+        }
+        $data = array('name' => $contactName, 'email' => $contactEmail, 'message' => $contactMessage);
+        Mail::send('emails.activation', $data, function($message) use ($toEmail) {
+            $message->to($toEmail)->subject('Avtivation');
         });
+
         return redirect()->route('waiting')->with('');
     }
 }

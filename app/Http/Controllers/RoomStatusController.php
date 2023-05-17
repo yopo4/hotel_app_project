@@ -66,7 +66,7 @@ class RoomStatusController extends Controller
             return redirect()->route('roomstatus.index')->with('success', 'Room ' . $roomstatus->name . ' deleted!');
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Type ' . $roomstatus->name . ' cannot be deleted! Error Code:' . $e->errorInfo[1]
+                'message' => 'Type ' . $roomstatus->name . ' cannot be deleted! Error Code:'
             ], 500);
         }
     }

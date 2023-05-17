@@ -47,7 +47,6 @@ class RoomRepository
 
         $totalData  =   $main_query->get()->count();
 
-        // Filter global column
         if ($request->input('search.value')) {
             $search = $request->input('search.value');
             $main_query->where(function ($query) use ($search, $columns) {

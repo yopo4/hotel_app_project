@@ -45,7 +45,7 @@ $(function() {
                             data-bs-toggle="tooltip" data-bs-placement="top" title="Edit room">
                             <i class="fas fa-edit"></i>
                         </button>
-                        <form class="btn btn-sm delete-room" method="POST"
+                        <form class="btn btn-sm delete-room" method="delete"
                             id="delete-room-form-${roomId}"
                             action="/room/${roomId}">
                             <a class="btn btn-light btn-sm rounded shadow-sm border delete"
@@ -79,8 +79,8 @@ $(function() {
         var room_url = $(this).attr('room-url');
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
-                confirmButton: 'btn btn-success',
-                cancelButton: 'btn btn-danger'
+                confirmButton: 'btn btn-success text-white',
+                cancelButton: 'btn btn-danger text-white'
             },
             buttonsStyling: false
         })

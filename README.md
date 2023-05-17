@@ -56,7 +56,7 @@ npm run build
 - Password: admin
 
 
-## TODO:
+<!-- ## TODO:
 - Customer's Room:
     - Asks for room to be cleaned
         - Update room status
@@ -169,10 +169,10 @@ npm run build
 
 
 
-
+ -->
 ## ERD
 ![alt text](https://github.com/WailanTirajoh/laravel_hotel/blob/main/erd.PNG?raw=true)
-
+<!-- 
 ## Reservation Plot
 
 - Customer Register to Admin
@@ -192,4 +192,4 @@ npm run build
 
 ## Laravel License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT). -->

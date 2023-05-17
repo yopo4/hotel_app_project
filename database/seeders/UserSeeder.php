@@ -22,6 +22,7 @@ class UserSeeder extends Seeder
             'email' => 'admin@admin.com',
             'password' => Hash::make('admin'),
             'role' => 'Admin',
+            'hotel_name' => 'First Hotel',
             'random_key' => Str::random(60)
         ]);
         User::create([

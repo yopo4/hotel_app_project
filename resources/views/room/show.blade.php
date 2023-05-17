@@ -45,7 +45,7 @@
                                                     <td><i class="fas fa-phone"></i></td>
                                                     <td>
                                                         <span>
-                                                            +6281233808395
+                                                            +212 1233808395
                                                         </span>
                                                     </td>
                                                 </tr>
