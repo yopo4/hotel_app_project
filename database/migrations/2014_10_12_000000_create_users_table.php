@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('random_key');
-            $table->string('hotel_name')->default("");
+            $table->foreignId('hotel_id')->constrained()->nullable();
             $table->boolean('validated')->default(false);
             $table->rememberToken();
             $table->timestamps();

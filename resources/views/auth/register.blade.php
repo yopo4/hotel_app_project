@@ -9,6 +9,23 @@
             </path>
         </svg>
     </div>
+    <style>
+        .md-country-picker-item {
+            position: relative;
+            line-height: 20px;
+            padding: 10px 0 10px 40px;
+        }
+
+        .md-country-picker-flag {
+            position: absolute;
+            left: 0;
+            height: 20px;
+        }
+
+        .mbsc-scroller-wheel-item-2d .md-country-picker-item {
+            transform: scale(1.1);
+        }
+    </style>
     <div class="container">
         <div class="row">
             <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
@@ -28,53 +45,147 @@
                             </div>
                         </div>
 
-                        <form class="row g-3" method="POST" action="{{ route('auth.store') }}">
+                        <form class="row g-3" id="authForm" method="POST" action="{{ route('auth.store') }}">
                             @csrf
-                            <div class="col-md-12">
-                                <label for="name" class="form-label">Name</label>
-                                <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                    id="name" name="name" value="{{ old('name') }}">
-                                @error('name')
-                                    <div class="text-danger mt-1">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
+                            <div id="owner-details" class="row g-3">
+                                <h3>Owner informations</h3>
+                                <div class="col-md-12">
+                                    <label for="name" class="form-label">Name</label>
+                                    <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                        id="name" name="name" value="{{ old('name') }}">
+                                    @error('name')
+                                        <div class="text-danger mt-1">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                        id=" email" name="email" value="{{ old('email') }}">
+                                    @error('email')
+                                        <div class="text-danger mt-1">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class=" col-md-6">
+                                    <label for="password" class="form-label">Password</label>
+                                    <input type="password" class="form-control @error('password') is-invalid @enderror"
+                                        id="password" name="password" value="{{ old('password') }}">
+                                    @error('password')
+                                        <div class="text-danger mt-1">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class=" col-md-12">
+                                    <label for="role" class="form-label">Role</label>
+                                    <select id="role" name="role"
+                                        class="form-select @error('password') is-invalid @enderror">
+                                        <option value="Admin" @if (old('role') == 'Admin') selected @endif>Admin</option>
+                                        {{-- <option value="Customer" @if (old('role') == 'Customer') @endif>Customer</option> --}}
+                                    </select>
+                                    @error('role')
+                                        <div class="text-danger mt-1">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
                             </div>
-                            <div class="col-md-6">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control @error('email') is-invalid @enderror"
-                                    id=" email" name="email" value="{{ old('email') }}">
-                                @error('email')
-                                    <div class="text-danger mt-1">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class=" col-md-6">
-                                <label for="password" class="form-label">Password</label>
-                                <input type="password" class="form-control @error('password') is-invalid @enderror"
-                                    id="password" name="password"
-                                    value="{{ old('password') }}">
-                                @error('password')
-                                    <div class="text-danger mt-1">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class=" col-md-12">
-                                <label for="role" class="form-label">Role</label>
-                                <select id="role" name="role"
-                                    class="form-select @error('password') is-invalid @enderror">
-                                    <option value="Admin" @if (old('role') == 'Admin') selected @endif>Admin</option>
-                                </select>
-                                @error('role')
-                                    <div class="text-danger mt-1">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="d-flex justify-content-center">
-                                <button type="submit" class="btn btn-light shadow-sm border float-end">Create</button>
+                            {{-- <div id="hotel-details"
+                                style="display: @if (\Session::has('error')) block @else none @endif;">
+                                <h3>Hotel informations</h3>
+                                <div class="col-md-12">
+                                    <label for="hotel_name" class="form-label">Name</label>
+                                    <input type="text" class="form-control @error('hotel_name') is-invalid @enderror"
+                                        id="hotel_name" name="hotel_name" value="{{ old('hotel_name') }}">
+                                    @error('hotel_name')
+                                        <div class="text-danger mt-1">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="address" class="form-label">Address</label>
+                                    <input type="text" class="form-control @error('address') is-invalid @enderror"
+                                        id="address" name="address" value="{{ old('address') }}">
+                                    @error('address')
+                                        <div class="text-danger mt-1">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="country" class="form-label">Country</label>
+                                    {{-- <input type="text" class="country-selector @error('country') is-invalid @enderror"
+                                        id="country" name="country" value="{{ old('country') }}"> --}}
+
+                                    {{-- <select id="country" name="country"
+                                        class="form-select selectpicker countrypicker @error('country') is-invalid @enderror"
+                                        data-live-search="true" data-default="Select a country" data-flag="true"
+                                        onchange="set_city_state(this,city_state)">
+                                        <option value="Select a country" selected>Select a country</option>
+                                        <script type="text/javascript">
+                                            setRegions(this);
+                                        </script>
+                                    </select>
+                                    @error('country')
+                                        <div class="text-danger mt-1">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="city" class="form-label">City</label> --}}
+                                    {{-- <input type="text" class="form-control @error('city') is-invalid @enderror"
+                                        id="city" name="city" value="{{ old('city') }}"> --}}
+                                    {{-- <select class="form-control @error('city') is-invalid @enderror" name="city_state"
+                                        disabled="disabled"></select>
+                                    @error('city')
+                                        <div class="text-danger mt-1">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="phone" class="form-label">Phone</label>
+                                    <input type="phone" class="form-control @error('phone') is-invalid @enderror"
+                                        placeholder="06 12 34 56 78" id="phone" name="phone"
+                                        value="{{ old('phone') }}">
+                                    @error('phone')
+                                        <div class="text-danger mt-1">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                        id="email" name="email" value="{{ old('email') }}">
+                                    @error('email')
+                                        <div class="text-danger mt-1">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="stars" class="form-label">Number of stars</label>
+                                    <input type="number" class="form-control @error('stars') is-invalid @enderror"
+                                        id="stars" min="1" max="5" name="stars" value="{{ old('stars') }}">
+                                    @error('stars')
+                                        <div class="text-danger mt-1">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div> --}}
+
+                            <div class="d-flex justify-content-center mt-2">
+                                {{-- <input type="button" value="Back" id="backBtn"
+                                    class="btn btn-light shadow-sm border float-start mr-2" style="display: none;"> --}}
+                                <input type="button" value="Continue" id="saveBtn"
+                                    class="btn btn-light shadow-sm border float-end">
                             </div>
                         </form>
                         <hr class="my-4">
@@ -85,6 +196,7 @@
             </div>
         </div>
     </div>
+    <input type="text" name="" id="testInp" value="0" hidden>
     <div class="wavesbottom">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
             <path fill="#0099ff" fill-opacity="1"
@@ -92,4 +204,30 @@
             </path>
         </svg>
     </div>
+    <script>
+        $(document).ready(function() {
+
+            $('#saveBtn').click(function() {
+                var test = $('#testInp').val();
+
+                // if (test == 0) {
+                //     $("#hotel-details").show();
+                //     $("#backBtn").show();
+                //     $("#owner-details").hide();
+                //     $('#testInp').attr('value', '1');
+                //     $('#saveBtn').attr('value', 'Save');
+                // } else {
+                    $('#authForm').submit();
+                // }
+            });
+            // $('#backBtn').click(function() {
+            //     $('#testInp').attr('value', '0');
+
+            //     $("#hotel-details").hide();
+            //     $("#owner-details").show();
+            //     $('#saveBtn').attr('value', 'Continue');
+            //     $('#backBtn').hide();
+            // });
+        });
+    </script>
 @endsection

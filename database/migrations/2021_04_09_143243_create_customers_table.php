@@ -22,6 +22,10 @@ class CreateCustomersTable extends Migration
             $table->date('birthdate');
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
+            // $table->id();
+            // $table->foreign('customer_id')->references('id')->on('customers');
+            // $table->foreign('owner_id')->references('id')->on('users');
+            // $table->string('content');
         });
     }
 

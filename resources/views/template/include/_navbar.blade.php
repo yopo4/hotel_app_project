@@ -42,10 +42,10 @@
                                             <a
                                                 href="{{ route('notification.routeTo', ['id' => $notification->id]) }}">here</a>
                                             {{-- <a href="{{ $notification->data['url'] }}">here</a> --}}
-                                            <span class="timeline-icon" style="margin-left: -1px; margin-top:-3px"><i
+                                            {{-- <span class="timeline-icon" style="margin-left: -1px; margin-top:-3px"><i
                                                     class="fa fa-cash-register"></i></span>
                                             <span
-                                                class="timeline-date">{{ $notification->created_at->diffForHumans() }}</span>
+                                                class="timeline-date">{{ $notification->created_at->diffForHumans() }}</span> --}}
                                         </p>
                                     </li>
                                 @empty
@@ -73,8 +73,8 @@
                     </div>
                 </ul>
 
-            </div>
-            <div class="dropdown">
+            </div> 
+            <div class="d-flex justify-content-end">
                 <div class="dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="{{ auth()->user()->getAvatar() }}" class="rounded-circle img-thumbnail"
                         style="cursor: pointer" width="40" height="40" alt="">
@@ -93,6 +93,8 @@
                         <li><button class="dropdown-item" type="submit">Logout</button></li>
                     </form>
                 </ul>
+                {{-- <a class="btn btn-warning" href="#">Register</a>
+                <a class="btn btn-outline-warning" href="#">Login</a> --}}
             </div>
         </div>
     </div>

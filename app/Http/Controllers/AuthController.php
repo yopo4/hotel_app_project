@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PostLoginRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\StoreHotelRequest;
 use App\Http\Requests\UpdateCustomerRequest;
 use App\Models\Customer;
+use App\Models\Hotel;
 use App\Models\User;
 use App\Repositories\UserRepository;
+use App\Repositories\HotelRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -17,10 +20,12 @@ class AuthController extends Controller
 {
 
     private $userRepository;
+    private $hotelRepository;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepository $userRepository, HotelRepository $hotelRepository)
     {
         $this->userRepository = $userRepository;
+        $this->hotelRepository = $hotelRepository;
     }
 
     public function postLogin(PostLoginRequest $request)
@@ -48,12 +53,13 @@ class AuthController extends Controller
         return view('auth.waiting', compact('supers'));
     }
 
-
-    public function store(StoreUserRequest $request)
+    public function storeAdmin(StoreUserRequest $userRequest)
     {
-        $user = $this->userRepository->store($request);
-        if (Auth::attempt($request->only('email', 'password'))) {
-            return redirect('waiting')->with('failed', 'Waiting for validation for user: ' . auth()->user()->name);
+        $this->userRepository->store($userRequest);
+        if (Auth::attempt($userRequest->only('email', 'password'))) {
+            return redirect()->route('hotel.form')->with('wait', 'Waiting for validation for user: ' . auth()->user()->name);
         }
     }
+
+    
 }

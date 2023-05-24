@@ -15,7 +15,6 @@
         .hide {
             display: none;
         }
-
     </style>
     <link href="{{ asset('style/css/stylelogin.css') }}" rel="stylesheet">
     <svg class="wavestop" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
@@ -46,26 +45,34 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-label-group">
-                                        <input type="email" id="email" name="email" class="form-control @error('email') is-invalid @enderror"
-                                            placeholder="Email" value="{{ old('email') }}" required autofocus>
+                                        <input type="email" id="email" name="email"
+                                            class="form-control @error('email') is-invalid @enderror @if (\Session::has('failed')) is-invalid @endif"
+                                            placeholder="Email" value="{{ old('email') }}" autofocus>
                                         <label for="email">Email</label>
                                         @error('email')
                                             <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
+                                                {{ $message }}
                                             </span>
                                         @enderror
                                     </div>
                                     <div class="form-label-group">
                                         <input type="password" id="password" name="password" autocomplete="new-password"
-                                            class="form-control @error('password') is-invalid @enderror" placeholder="Password" value="{{ old('password') }}"
-                                            required>
+                                            class="form-control @error('password') is-invalid @enderror @if (\Session::has('failed')) is-invalid @endif"
+                                            placeholder="Password" value="{{ old('password') }}">
                                         <label for="password">Password</label>
                                         @error('password')
                                             <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
+                                                {{ $message }}
                                             </span>
                                         @enderror
                                     </div>
+                                    @if (\Session::has('failed'))
+                                        <div class="d-flex justify-content-center">
+                                            <p class="text-danger mb-3">
+                                                {{ \Session::get('failed') }}
+                                            </p>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                             <div class="row">
@@ -84,7 +91,7 @@
                                 </div>
                             </div>
                             <hr class="my-4">
-                            <p class="text-center">Doesnt have any account? <a href="/choose">register</a></p>
+                            <p class="text-center">Doesnt have any account? <a href="/choose">Register</a></p>
                         </form>
                     </div>
                 </div>

@@ -6,6 +6,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateCustomerRequest;
 use App\Models\Customer;
 use App\Models\User;
+use App\Models\Hotel;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -45,7 +46,16 @@ class UserController extends Controller
             $customer = Customer::where('user_id', $user->id)->first();
             return view('customer.show', compact('customer'));
         }
-        return view('user.show', compact('user'));
+        // $hotel =  DB::table('hotels')->select('*')->where('user_id', '=', $user->id)->get();
+        $hotels =  Hotel::where('user_id', $user->id)->first();
+        if ($hotels != null) {
+            return view('user.show', ['user'=>$user, 'hotels'=>$hotels]);
+        }
+
+        $hotels = [
+            'name'=>'No Hotel',
+        ];
+        return view('user.show', compact('user', 'hotels'));
     }
 
     public function edit(User $user)

@@ -34,6 +34,11 @@
                             <option value="10" @if (old('number-room') == 10) selected @endif>10</option>
                             <option value="20" @if (old('number-room') == 20) selected @endif>20</option>
                         </select>
+                        <label for="capacity" class="form-label">Capacity</label>
+                        <input type="number" class="form-control" name="capacity" value="1" min="1"
+                            placeholder="Capacity">
+                        <label for="price" class="form-label">Price</label>
+                        <input type="number" class="form-control" name="price" value="700" placeholder="Price">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

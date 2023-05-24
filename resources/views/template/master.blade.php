@@ -21,6 +21,9 @@
     @vite('resources/sass/app.scss')
     <title>@yield('title')</title>
     @yield('head')
+    <script>
+        
+    </script>
 </head>
 
 <body>

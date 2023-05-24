@@ -11,14 +11,16 @@ class RoomsGenerationController extends Controller
     {
         $firstCount = DB::table('rooms')->select('*')->count()+1;
         $numberRooms = $request->input('number-room');
+        $capacity = $request->input('capacity');
+        $price = $request->input('price');
 
         for ($i = $firstCount; $i < $firstCount + $numberRooms; $i++) {
             DB::table('rooms')->insert([
                 'type_id' => 1,
                 'room_status_id' => 1,
                 'number' => $i,
-                'capacity' => 1,
-                'price' => 1000,
+                'capacity' => $capacity,
+                'price' => $price,
                 'view' => "Insert your view description."
             ]);
         }
