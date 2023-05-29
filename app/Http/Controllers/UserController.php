@@ -51,11 +51,7 @@ class UserController extends Controller
         if ($hotels != null) {
             return view('user.show', ['user'=>$user, 'hotels'=>$hotels]);
         }
-
-        $hotels = [
-            'name'=>'No Hotel',
-        ];
-        return view('user.show', compact('user', 'hotels'));
+        return view('user.no_hotel_show', compact('user'));
     }
 
     public function edit(User $user)
@@ -71,6 +67,13 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
+        $hotel = Hotel::where('user_id', $user->id)->first();
+        if ($user->role == "Customer") {
+            $customer = Customer::where('user_id', $user->id)->first();
+            $customer->delete();
+        } elseif ($hotel != null) {
+            $hotel->delete();
+        }
         $user->delete();
         return redirect()->route('user.index')->with('success', 'User ' . $user->name . ' deleted!');
     }

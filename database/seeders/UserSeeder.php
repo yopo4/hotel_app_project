@@ -22,8 +22,15 @@ class UserSeeder extends Seeder
             'email' => 'admin@admin.com',
             'password' => Hash::make('admin'),
             'role' => 'Admin',
-            'hotel_name' => 'First Hotel',
-            'random_key' => Str::random(60)
+            'random_key' => Str::random(60),
+            'validated'=> 1,
+        ]);
+        User::create([
+            'name' => 'Not ValidAdmin',
+            'email' => 'notvalid@admin.com',
+            'password' => Hash::make('admin'),
+            'role' => 'Admin',
+            'random_key' => Str::random(60),
         ]);
         User::create([
             'name' => 'Super',
@@ -31,7 +38,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('super'),
             'role' => 'Super',
             'random_key' => Str::random(60),
-            'validated'=> 1
+            'validated'=> 1,
         ]);
     }
 }

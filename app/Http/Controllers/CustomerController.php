@@ -66,11 +66,7 @@ class CustomerController extends Controller
 
             return redirect('customer')->with('success', 'Customer ' . $customer->name . ' deleted!');
         } catch (\Exception $e) {
-            $errorMessage = "";
-            if($e->errorInfo[0] == "23000") {
-                $errorMessage = "Data still connected to other tables";
-            }
-            return redirect('customer')->with('failed', 'Customer ' . $customer->name . ' cannot be deleted! ' . $errorMessage);
+            return redirect('customer')->with('failed', 'Customer ' . $customer->name . ' cannot be deleted! ' . $e->getMessage());
         }
     }
 }

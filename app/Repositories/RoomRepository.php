@@ -3,6 +3,8 @@
 namespace App\Repositories;
 
 use App\Models\Room;
+use App\Models\Hotel;
+use Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver;
 
 class RoomRepository
 {
@@ -33,17 +35,37 @@ class RoomRepository
         $start          = $request->input('start');
         $order          = $columns[$request->input('order.0.column')];
         $dir            = $request->input('order.0.dir');
+        $hotel_id       = Hotel::select('id')->where('user_id', '=', auth()->user()->id)->get();
 
-        $main_query = Room::select(
-            'rooms.id',
-            'rooms.number',
-            'types.name as type',
-            'rooms.capacity',
-            'rooms.price',
-            'room_statuses.name as status',
-        )
-            ->leftJoin("types", "rooms.type_id", "=", "types.id")
-            ->leftJoin("room_statuses", "rooms.room_status_id", "=", "room_statuses.id");
+        foreach ($hotel_id as $hotel) {
+            $hotel_id = $hotel->id;
+        }
+        if (auth()->user()->role == 'Super') {
+            $main_query = Room::select(
+                'rooms.id',
+                'rooms.number',
+                'types.name as type',
+                'rooms.capacity',
+                'rooms.price',
+                'room_statuses.name as status',
+            )
+                ->leftJoin("types", "rooms.type_id", "=", "types.id")
+                ->leftJoin("room_statuses", "rooms.room_status_id", "=", "room_statuses.id");
+        } else {
+            $main_query = Room::select(
+                'rooms.id',
+                'rooms.number',
+                'types.name as type',
+                'rooms.capacity',
+                'rooms.price',
+                'room_statuses.name as status',
+            )
+                ->leftJoin("types", "rooms.type_id", "=", "types.id")
+                ->leftJoin("room_statuses", "rooms.room_status_id", "=", "room_statuses.id")
+                ->where('rooms.hotel_id', '=', $hotel_id);
+        }
+
+
 
         $totalData  =   $main_query->get()->count();
 

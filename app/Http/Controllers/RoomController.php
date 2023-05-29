@@ -24,6 +24,7 @@ class RoomController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
+
             return $this->roomRepository->getRoomsDatatable($request);
         }
         return view('room.index');
@@ -96,7 +97,7 @@ class RoomController extends Controller
             ]);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Customer ' . $room->number . ' cannot be deleted! Error Code:' 
+                'message' => 'Customer ' . $room->number . ' cannot be deleted! Error Code:'
             ], 500);
         }
     }

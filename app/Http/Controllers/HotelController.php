@@ -40,6 +40,10 @@ class HotelController extends Controller
      */
     public function store(Request $request)
     {
+        $hotel = Hotel::where('user_id', '=', auth()->user()->id)->first();
+        if ($hotel != null) {
+            return redirect()->route('waiting')->with('failed', 'You can\'t create other hotels.');
+        }
         $rules = [
             "name" => ["required","max:255"],
             "address" => ["required","max:500"],

@@ -1,18 +1,30 @@
-<div class="container">
-    <div class="row align-items-center align-baseline">
-        <div class="col-6">
-            <small>© 2023 All Rights Reserved.</small>
+<div class="container-fluid bg-white mt-5">
+    <div class="row">
+        <div class="col-lg-4 p-4">
+            <h3 class="h-font fw-bold fs-3 mb-2">TJ HOTEL</h3>
+            <p>© 2023 All Rights Reserved.</p>
         </div>
-        <div class="col-6 d-flex flex-row-reverse bd-highlight align-middle">
-            <div class="p-2 bd-highlight align-middle">
-                <a href="https://www.facebook.com/"><i class="fab fa-facebook-square"></i></a>
-            </div>
-            <div class="p-2 bd-highlight align-middle">
-                <a href="https://www.instagram.com/"><i class="fab fa-instagram-square"></i></a>
-            </div>
-            <div class="p-2 bd-highlight align-middle">
-                <a href="https://github.com/"><i class="fab fa-github-square"></i></a>
-            </div>
+        <div class="col-lg-4 p-4">
+            <h5 class="mb-3">Link</h5>
+            <a href="#" class="d-inline-block mb-2 text-dark text-decoration-none">Home</a><br>
+            <a href="#" class="d-inline-block mb-2 text-dark text-decoration-none">Rooms</a><br>
+            <a href="#" class="d-inline-block mb-2 text-dark text-decoration-none">Facilities</a><br>
+            <a href="#" class="d-inline-block mb-2 text-dark text-decoration-none">Contact Us</a><br>
+            <a href="#" class="d-inline-block mb-2 text-dark text-decoration-none">About</a>
+        </div>
+        <div class="col-lg-4 p-4">
+            <h5 class="mb-3">Follow us</h5>
+            <a href="#" class="d-inline-block text-dark text-decoration-none mb-2">
+                <i class="bi bi-twitter me-1"></i>Twitter
+            </a><br>
+            <a href="#" class="d-inline-block text-dark text-decoration-none mb-2">
+                <i class="bi bi-facebook me-1"></i>facebook
+            </a><br>
+            <a href="#" class="d-inline-block text-dark text-decoration-none">
+                <i class="bi bi-instagram me-1"></i>facebook
+            </a><br>
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>

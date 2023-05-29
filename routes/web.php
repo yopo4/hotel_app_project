@@ -102,6 +102,7 @@ Route::group(['middleware' => ['auth', 'checkRole:Super,Admin,Customer', 'valida
 
     Route::get('/notification-to/{id}', [NotificationsController::class, 'routeTo'])->name('notification.routeTo');
 });
+
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::view('/login', 'auth.login')->name('login');
@@ -109,10 +110,11 @@ Route::view('/register', 'auth.register')->name('register');
 Route::view('/choose', 'auth.choose')->name('choose');
 Route::post('/postLogin', [AuthController::class, 'postLogin'])->name('postlogin');
 Route::post('/admin_registration', [AuthController::class, 'storeAdmin'])->name('auth.store');
-Route::view('/form_hotel', 'auth.hotel')->name('hotel.form');
 Route::post('/add_hotel', [HotelController::class, 'store'])->name('hotel.store');
+Route::view('/form_hotel', 'auth.hotel')->name('hotel.form');
 
 Route::get('/waiting', [AuthController::class, 'waiting'])->name('waiting');
+
 Route::get('/email_form/{receiverEmail}', [EmailController::class, 'index'])->name('email_form');
 Route::get('/send_email', [EmailController::class, 'Send'])->name('email.send');
 

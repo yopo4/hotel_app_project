@@ -31,6 +31,10 @@ composer install
 npm install 
 npm run dev
 php artisan migrate:fresh --seed
+
+- After migration run =>ALTER TABLE hotels ADD CONSTRAINT user_id FOREIGN KEY (user_id) REFERENCES users(id);
+
+
 php artisan serv                => Terminal 1
 php artisan websockets:serv     => Terminal 2   //run the websocket server for realtime notification
 ```

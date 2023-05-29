@@ -13,9 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::create('hotels', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->nullable();
+            $table->foreignId('user_id')->nullable();
             $table->string('name');
             $table->string('address');
             $table->string('country');
@@ -29,6 +31,8 @@ return new class extends Migration
             // $table->foreign('owner_id')->references('id')->on('users');
             // $table->string('content');
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**

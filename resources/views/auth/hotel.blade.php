@@ -61,44 +61,45 @@
                                     @enderror
                                 </div>
                                 <div class="col-md-12">
-                                    <label for="address" class="form-label">Address</label>
-                                    <input type="text" class="form-control @error('address') is-invalid @enderror"
-                                        id="address" name="address" value="{{ old('address') }}">
-                                    @error('address')
-                                        <div class="text-danger mt-1">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                                <div class="col-md-12">
                                     <label for="country" class="form-label">Country</label>
                                     <input type="text" class="form-control @error('country') is-invalid @enderror"
-                                        id="country" name="country" value="{{ old('country') }}" hidden>
+                                    id="country" name="country" value="{{ old('country') }}" hidden>
 
                                     <select id="countrySlct" name="country"
-                                        class="form-select selectpicker countrypicker @error('country') is-invalid @enderror"
-                                        data-live-search="true" data-default="Select a country" data-flag="true"
-                                        onchange="set_city_state(this,city_state)">
-                                        <option value="Select a country" selected>Select a country</option>
-                                        <option value="{{ old('country') }}" @if (old('country')!="") selected @endif></option>
-                                        <script type="text/javascript">
+                                    class="form-select selectpicker countrypicker @error('country') is-invalid @enderror"
+                                    data-live-search="true" data-default="Select a country" data-flag="true"
+                                    onchange="set_city_state(this,city_state)">
+                                    <option value="Select a country" selected>Select a country</option>
+                                    <option value="{{ old('country') }}" @if (old('country')!="") selected @endif></option>
+                                    <script type="text/javascript">
                                             setRegions(this);
-                                        </script>
+                                            </script>
                                     </select>
                                     @error('country')
-                                        <div class="text-danger mt-1">
-                                            {{ $message }}
-                                        </div>
+                                    <div class="text-danger mt-1">
+                                        {{ $message }}
+                                    </div>
                                     @enderror
                                 </div>
                                 <div class="col-md-12">
                                     <label for="city" class="form-label">City</label>
                                     <input type="text" class="form-control @error('city') is-invalid @enderror"
-                                        id="city" name="city" value="{{ old('city') }}" hidden>
+                                    id="city" name="city" value="{{ old('city') }}" hidden>
                                     <select id="citySlct" class="form-control @error('city') is-invalid @enderror" name="city_state"
                                         disabled="disabled">
                                     </select>
                                     @error('city')
+                                    <div class="text-danger mt-1">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="address" class="form-label">Address</label>
+                                    {{-- <input type="text" class="form-control @error('address') is-invalid @enderror"
+                                        id="address" name="address" value="{{ old('address') }}"> --}}
+                                        <textarea class="form-control" name="address" id="address" cols="30" rows="3" value="{{ old('address') }}"></textarea>
+                                    @error('address')
                                         <div class="text-danger mt-1">
                                             {{ $message }}
                                         </div>

@@ -42,14 +42,15 @@ class AuthController extends Controller
 
     public function logout()
     {
-        $name = auth()->user()->name;
+        // $name = auth()->user()->name;
         Auth::logout();
-        return redirect('login')->with('success', 'Logout success, goodbye ' . $name);
+        return redirect('login')->with('success', 'Logout success, goodbye ');
     }
 
     public function waiting(Request $request)
     {
         $supers = $this->userRepository->showUser($request);
+
         return view('auth.waiting', compact('supers'));
     }
 
@@ -61,5 +62,5 @@ class AuthController extends Controller
         }
     }
 
-    
+
 }
