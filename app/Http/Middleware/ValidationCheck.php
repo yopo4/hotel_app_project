@@ -16,7 +16,7 @@ class ValidationCheck
      */
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->user()->validated == 1) {
+        if (auth()->user()->validated == 1 || (auth()->user()->validated == 0 && auth()->user()->role == 'Customer')) {
             return $next($request);
         }
 

@@ -19,7 +19,7 @@
                                 Customer
                             </h3>
                         </div>
-                        <a href="#">
+                        <a href="{{ route('custom.register') }}">
                             <img src="{{ asset('asset/customer.jpg') }}" alt="customer_img" srcset="">
                         </a>
                     </div>

@@ -40,8 +40,16 @@
                         <label for="price" class="form-label">Price</label>
                         <input type="number" class="form-control" name="price" value="700" placeholder="Price">
                         @if (auth()->user()->role == 'Super')
-                        <label for="hotel_id" class="form-label">Hotel ID</label>
-                        <input type="number" class="form-control" name="hotel_id" placeholder="Hotel ID">
+                            <label for="hotel_id" class="form-label">Hotel</label>
+                            {{-- <input type="number" class="form-control" name="hotel_id" placeholder="Hotel ID"> --}}
+                            <select name="hotel" id="" class="form-control">
+                                @forelse ($hotels as $hotel)
+                                    <option value="{{ $hotel->id }}" @if (old('hotel') == $hotel->id) selected @endif>{{ $hotel->name }}</option>
+                                @empty
+                                    <option value="0" selected></option>
+                                    <option value="0">No IDs</option>
+                                @endforelse
+                            </select>
                         @endif
                     </div>
                     <div class="modal-footer">

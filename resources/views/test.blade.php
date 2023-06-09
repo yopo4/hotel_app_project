@@ -1,481 +1,232 @@
-@extends('template.custom.master')
-@section('title', 'User')
-@section('main')
-
-<style type="text/css">
-
-	.availability-form{
-		margin-top: -50px;
-		z-index: 2;
-		position: relative;
-	}
-
-	@media screen and (max-width: 575px) {
-	.availability-form{
-		margin-top: 25px;
-		padding: 0 35px;
-	}
-
-	}
-</style>
- <div class="container-fluid px-lg-4 mt-4">
- 	 <div class="swiper swiper-container">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide">
-          <img src="{{ asset("img/hotel/1.png") }}" class="w-100 d-block" />
-        </div>
-        <div class="swiper-slide">
-          <img src="{{ asset("img/hotel/2.png") }}" class="w-100 d-block" />
-        </div>
-        <div class="swiper-slide">
-          <img src="{{ asset("img/hotel/3.png") }}" class="w-100 d-block" />
-        </div>
-        <div class="swiper-slide">
-          <img src="{{ asset("img/hotel/4.png") }}" class="w-100 d-block" />
-        </div>
-        <div class="swiper-slide">
-          <img src="{{ asset("img/hotel/5.png") }}" class="w-100 d-block" />
-        </div>
-        <div class="swiper-slide">
-          <img src="{{ asset("img/hotel/6.png") }}" class="w-100 d-block" />
-        </div>
-
-      </div>
-
+@extends('template.auth')
+@section('title', 'Register')
+@section('content')
+    <link href="{{ asset('style/css/stylelogin.css') }}" rel="stylesheet">
+    <div class="wavestop">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+            <path fill="#0099ff" fill-opacity="1"
+                d="M0,224L48,186.7C96,149,192,75,288,42.7C384,11,480,21,576,74.7C672,128,768,224,864,256C960,288,1056,256,1152,234.7C1248,213,1344,203,1392,197.3L1440,192L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z">
+            </path>
+        </svg>
     </div>
- </div>
+    <style>
+        .md-country-picker-item {
+            position: relative;
+            line-height: 20px;
+            padding: 10px 0 10px 40px;
+        }
 
- <div class="container availability-form">
- 	<div class="row">
- 		<div class="col-lg-12 bg-white shadow p-4 rounded">
- 			<h5 class="col-lg-3">Check Booking Availability</h5>
- 			<form>
- 				<div class="row align-items-end">
- 					<div class="col-lg-3 mb-3">
- 						<label class="form-label" style="font-weight: 500;">Check-in</label>
- 						<input type="date" class="form-control shadow-none">
- 					</div>
- 					<div class="col-lg-3 mb-3">
- 						<label class="form-label" style="font-weight: 500;">Check-in</label>
- 						<input type="date" class="form-control shadow-none">
- 					</div>
- 					<div class="col-lg-3 mb-3">
- 						<label class="form-label" style="font-weight: 500;">Adult</label>
- 						<select class="form-select shadow-none">
+        .md-country-picker-flag {
+            position: absolute;
+            left: 0;
+            height: 20px;
+        }
 
-  						<option value="1">One</option>
-  						<option value="2">Two</option>
-  						<option value="3">Three</option>
-						</select>
- 					</div>
- 					<div class="col-lg-2 mb-3">
- 						<label class="form-label" style="font-weight: 500;">Children</label>
- 						<select class="form-select shadow-none">
+        .mbsc-scroller-wheel-item-2d .md-country-picker-item {
+            transform: scale(1.1);
+        }
+    </style>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                <div class="glassmorphism card-signin my-5">
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-lg-12">
+                                <div class="d-flex justify-content-center">
+                                    <img src="img/logo/sip.png" width="100" height="100" class="rounded-circle mx-auto"
+                                        alt="logo" style="background-color: white;">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h5 class="card-title text-center">Enter your informations</h5>
+                            </div>
+                        </div>
 
-  						<option value="1">One</option>
-  						<option value="2">Two</option>
-  						<option value="3">Three</option>
-						</select>
- 					</div>
- 					<div class="col-lg-1 mb-lg-3 mt-2">
- 						<button type="submit" class="btn text-white shadow-none custom-bg">Submit</button>
- 					</div>
+                        <form class="row g-3" id="authForm" method="POST" action="{{ route('auth.store') }}">
+                            @csrf
+                            <div id="owner-details" class="row g-3">
+                                <h3>Owner informations</h3>
+                                <div class="col-md-12">
+                                    <label for="name" class="form-label">Name</label>
+                                    <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                        id="name" name="name" value="{{ old('name') }}">
+                                    @error('name')
+                                        <div class="text-danger mt-1">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                        id=" email" name="email" value="{{ old('email') }}">
+                                    @error('email')
+                                        <div class="text-danger mt-1">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class=" col-md-6">
+                                    <label for="password" class="form-label">Password</label>
+                                    <input type="password" class="form-control @error('password') is-invalid @enderror"
+                                        id="password" name="password" value="{{ old('password') }}">
+                                    @error('password')
+                                        <div class="text-danger mt-1">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class=" col-md-12">
+                                    <label for="role" class="form-label">Role</label>
+                                    <select id="role" name="role"
+                                        class="form-select @error('password') is-invalid @enderror">
+                                        <option value="Admin" @if (old('role') == 'Admin') selected @endif>Admin</option>
+                                        {{-- <option value="Customer" @if (old('role') == 'Customer') @endif>Customer</option> --}}
+                                    </select>
+                                    @error('role')
+                                        <div class="text-danger mt-1">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div id="hotel-details"
+                                style="display: @if (\Session::has('error')) block @else none @endif;">
+                                <h3>Hotel informations</h3>
+                                <div class="col-md-12">
+                                    <label for="hotel_name" class="form-label">Name</label>
+                                    <input type="text" class="form-control @error('hotel_name') is-invalid @enderror"
+                                        id="hotel_name" name="hotel_name" value="{{ old('hotel_name') }}">
+                                    @error('hotel_name')
+                                        <div class="text-danger mt-1">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="address" class="form-label">Address</label>
+                                    <input type="text" class="form-control @error('address') is-invalid @enderror"
+                                        id="address" name="address" value="{{ old('address') }}">
+                                    @error('address')
+                                        <div class="text-danger mt-1">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="country" class="form-label">Country</label>
+                                    {{-- <input type="text" class="country-selector @error('country') is-invalid @enderror"
+                                        id="country" name="country" value="{{ old('country') }}"> --}}
 
- 				</div>
- 			</form>
- 		</div>
- 	</div>
- </div>
+                                    <select id="country" name="country"
+                                        class="form-select selectpicker countrypicker @error('country') is-invalid @enderror"
+                                        data-live-search="true" data-default="Select a country" data-flag="true"
+                                        onchange="set_city_state(this,city_state)">
+                                        <option value="Select a country" selected>Select a country</option>
+                                        <script type="text/javascript">
+                                            setRegions(this);
+                                        </script>
+                                    </select>
+                                    @error('country')
+                                        <div class="text-danger mt-1">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="city" class="form-label">City</label>
+                                    {{-- <input type="text" class="form-control @error('city') is-invalid @enderror"
+                                        id="city" name="city" value="{{ old('city') }}"> --}}
+                                    <select class="form-control @error('city') is-invalid @enderror" name="city_state"
+                                        disabled="disabled"></select>
+                                    @error('city')
+                                        <div class="text-danger mt-1">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="phone" class="form-label">Phone</label>
+                                    <input type="phone" class="form-control @error('phone') is-invalid @enderror"
+                                        placeholder="06 12 34 56 78" id="phone" name="phone"
+                                        value="{{ old('phone') }}">
+                                    @error('phone')
+                                        <div class="text-danger mt-1">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                        id="email" name="email" value="{{ old('email') }}">
+                                    @error('email')
+                                        <div class="text-danger mt-1">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="stars" class="form-label">Number of stars</label>
+                                    <input type="number" class="form-control @error('stars') is-invalid @enderror"
+                                        id="stars" min="1" max="5" name="stars" value="{{ old('stars') }}">
+                                    @error('stars')
+                                        <div class="text-danger mt-1">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
 
- <h2 class="mt-5 pt-4 mb-4 text-center fw-bold h-font">OUR ROOMS</h2>
- <div class="container">
- 	<div class="row">
+                            <div class="d-flex justify-content-center mt-2">
+                                <input type="button" value="Back" id="backBtn"
+                                    class="btn btn-light shadow-sm border float-start mr-2" style="display: none;">
+                                <input type="button" value="Continue" id="saveBtn"
+                                    class="btn btn-light shadow-sm border float-end">
+                            </div>
+                        </form>
+                        <hr class="my-4">
+                        <p class="text-center">Already registred? <a href="/login">Login</a></p>
 
- 		<div class="col-lg-4 col-md-6 my-3">
- 			<div class="card border-0 shadow" style="max-width: 350px; margin: auto;">
-			  <img src="{{ asset("img/rooms/2.png") }}" class="card-img-top" alt="...">
-			  <div class="card-body">
-			    <h5 class="card-title">Simple Room Name</h5>
-			    <h6 class="mb-4">Ꝛ2000 per night </h6>
-			    <div class="features mb-4">
-			    	<h6 class="mb-1">Features</h6>
-			    	<span class="badge rounded-pill bg-light text-dark text-wrap">
-			    		2 Rooms
-    				</span>
-    				<span class="badge rounded-pill bg-light text-dark text-wrap">
-			    		1 Bathroom
-    				</span>
-    				<span class="badge rounded-pill bg-light text-dark text-wrap">
-			    		1 Balcony
-    				</span>
-    				<span class="badge rounded-pill bg-light text-dark text-wrap">
-			    		3 Sofa
-    				</span>
-			    </div>
-			    <div class="Facilities mb-4">
-			    	<h6 class="mb-1">Facilities</h6>
-			    	<span class="badge rounded-pill bg-light text-dark text-wrap">
-			    		Wifi
-    				</span>
-    				<span class="badge rounded-pill bg-light text-dark text-wrap">
-			    		Television
-    				</span>
-    				<span class="badge rounded-pill bg-light text-dark text-wrap">
-			    		AC
-    				</span>
-    				<span class="badge rounded-pill bg-light text-dark text-wrap">
-			    		Room Heater
-    				</span>
-    			</div>
-
-    			<div class="guests mb-4">
-			    	<h6 class="mb-1">Guests</h6>
-			    	<span class="badge rounded-pill bg-light text-dark text-wrap">
-			    		5 Adults
-    				</span>
-    				<span class="badge rounded-pill bg-light text-dark text-wrap">
-			    		4 Children
-    				</span>
-    			</div>
-    				<div class="rating mb-4">
-
-    					<h6 class="mb-1">Rating</h6>
-    					<span class="badge rounded-pill bg-light">
-    						<i class="bi bi-star-fill text-warning"></i>
-    						<i class="bi bi-star-fill text-warning"></i>
-    						<i class="bi bi-star-fill text-warning"></i>
-    						<i class="bi bi-star-fill text-warning"></i>
-    					</span>
-    				</div>
-    				<div class="d-flex justify-content-evenly mb-2">
-    					<a href="#" class="btn btn-sm text-white custom-bg shadow-none">Book Now</a>
-    					<a href="#" class="btn btn-sm btn-outline-dark shadow-none">More details</a>
-    				</div>
-			  </div>
-			</div>
- 		</div>
-
- 		<div class="col-lg-4 col-md-6 my-3">
- 			<div class="card border-0 shadow" style="max-width: 350px; margin: auto;">
-			  <img src="{{ asset("img/rooms/2.png") }}" class="card-img-top" alt="...">
-			  <div class="card-body">
-			    <h5 class="card-title">Simple Room Name</h5>
-			    <h6 class="mb-4">Ꝛ2000 per night </h6>
-			    <div class="features mb-4">
-			    	<h6 class="mb-1">Features</h6>
-			    	<span class="badge rounded-pill bg-light text-dark text-wrap">
-			    		2 Rooms
-    				</span>
-    				<span class="badge rounded-pill bg-light text-dark text-wrap">
-			    		1 Bathroom
-    				</span>
-    				<span class="badge rounded-pill bg-light text-dark text-wrap">
-			    		1 Balcony
-    				</span>
-    				<span class="badge rounded-pill bg-light text-dark text-wrap">
-			    		3 Sofa
-    				</span>
-			    </div>
-			    <div class="Facilities mb-4">
-			    	<h6 class="mb-1">Facilities</h6>
-			    	<span class="badge rounded-pill bg-light text-dark text-wrap">
-			    		Wifi
-    				</span>
-    				<span class="badge rounded-pill bg-light text-dark text-wrap">
-			    		Television
-    				</span>
-    				<span class="badge rounded-pill bg-light text-dark text-wrap">
-			    		AC
-    				</span>
-    				<span class="badge rounded-pill bg-light text-dark text-wrap">
-			    		Room Heater
-    				</span>
-    				<div class="guests mb-4">
-			    	<h6 class="mb-1">Guests</h6>
-			    	<span class="badge rounded-pill bg-light text-dark text-wrap">
-			    		5 Adults
-    				</span>
-    				<span class="badge rounded-pill bg-light text-dark text-wrap">
-			    		4 Children
-    				</span>
-
-    				</div>
-    				<div class="rating mb-4">
-
-    					<h6 class="mb-1">Rating</h6>
-    					<span class="badge rounded-pill bg-light">
-    						<i class="bi bi-star-fill text-warning"></i>
-    						<i class="bi bi-star-fill text-warning"></i>
-    						<i class="bi bi-star-fill text-warning"></i>
-    						<i class="bi bi-star-fill text-warning"></i>
-    					</span>
-    				</div>
-    				<div class="d-flex justify-content-evenly mb-2">
-    					<a href="#" class="btn btn-sm text-white custom-bg shadow-none">Book Now</a>
-    					<a href="#" class="btn btn-sm btn-outline-dark shadow-none">More details</a>
-    				</div>
-			    </div>
-			  </div>
-			</div>
- 		</div>
-
- 		<div class="col-lg-4 col-md-6 my-3">
- 			<div class="card border-0 shadow" style="max-width: 350px; margin: auto;">
-			  <img src="{{ asset("img/rooms/2.png") }}" class="card-img-top" alt="...">
-			  <div class="card-body">
-			    <h5 class="card-title">Simple Room Name</h5>
-			    <h6 class="mb-4">Ꝛ2000 per night </h6>
-			    <div class="features mb-4">
-			    	<h6 class="mb-1">Features</h6>
-			    	<span class="badge rounded-pill bg-light text-dark text-wrap">
-			    		2 Rooms
-    				</span>
-    				<span class="badge rounded-pill bg-light text-dark text-wrap">
-			    		1 Bathroom
-    				</span>
-    				<span class="badge rounded-pill bg-light text-dark text-wrap">
-			    		1 Balcony
-    				</span>
-    				<span class="badge rounded-pill bg-light text-dark text-wrap">
-			    		3 Sofa
-    				</span>
-			    </div>
-			    <div class="Facilities mb-4">
-			    	<h6 class="mb-1">Facilities</h6>
-			    	<span class="badge rounded-pill bg-light text-dark text-wrap">
-			    		Wifi
-    				</span>
-    				<span class="badge rounded-pill bg-light text-dark text-wrap">
-			    		Television
-    				</span>
-    				<span class="badge rounded-pill bg-light text-dark text-wrap">
-			    		AC
-    				</span>
-    				<span class="badge rounded-pill bg-light text-dark text-wrap">
-			    		Room Heater
-    				</span>
-
-    				<div class="guests mb-4">
-			    	<h6 class="mb-1">Guests</h6>
-			    	<span class="badge rounded-pill bg-light text-dark text-wrap">
-			    		5 Adults
-    				</span>
-    				<span class="badge rounded-pill bg-light text-dark text-wrap">
-			    		4 Children
-    				</span>
-    				</div>
-
-    				<div class="rating mb-4">
-
-    					<h6 class="mb-1">Rating</h6>
-    					<span class="badge rounded-pill bg-light">
-    						<i class="bi bi-star-fill text-warning"></i>
-    						<i class="bi bi-star-fill text-warning"></i>
-    						<i class="bi bi-star-fill text-warning"></i>
-    						<i class="bi bi-star-fill text-warning"></i>
-    					</span>
-    				</div>
-    				<div class="d-flex justify-content-evenly mb-2">
-    					<a href="#" class="btn btn-sm text-white custom-bg shadow-none">Book Now</a>
-    					<a href="#" class="btn btn-sm btn-outline-dark shadow-none">More details</a>
-    				</div>
-			    </div>
-			  </div>
-			</div>
- 		</div>
-
-
- 		<div class="col-lg-12 text-center mt-5">
- 			<a href="#" class="btn btn-sm btn-outline-dark rounded-0 fw-bold shadow-none">More Rooms</a>
- 		</div>
- 	</div>
- </div>
-
-
- <h2 class="mt-5 pt-4 mb-4 text-center fw-bold h-font">OUR FACILITIES</h2>
-
- <div class="container">
- 	<div class="row justify-content-evenly px-lg-0 px-md-0 px-5">
- 		<div class="col-lg-2 col-md-2 text-center bg-white rounded shadow py-4 my-3">
- 			<img src="images/Facilities/wifi.svg" width="80px">
- 			<h5 class="mt-3">Wifi</h5>
- 		</div>
- 		<div class="col-lg-2 col-md-2 text-center bg-white rounded shadow py-4 my-3">
- 			<img src="images/Facilities/wifi.svg" width="80px">
- 			<h5 class="mt-3">Wifi</h5>
- 		</div>
- 		<div class="col-lg-2 col-md-2 text-center bg-white rounded shadow py-4 my-3">
- 			<img src="images/Facilities/wifi.svg" width="80px">
- 			<h5 class="mt-3">Wifi</h5>
- 		</div>
- 		<div class="col-lg-2 col-md-2 text-center bg-white rounded shadow py-4 my-3">
- 			<img src="images/Facilities/wifi.svg" width="80px">
- 			<h5 class="mt-3">Wifi</h5>
- 		</div>
- 		<div class="col-lg-2 col-md-2 text-center bg-white rounded shadow py-4 my-3">
- 			<img src="images/Facilities/wifi.svg" width="80px">
- 			<h5 class="mt-3">Wifi</h5>
- 		</div>
- 		<div class="col-lg-12 text-center mt-5">
- 			<a href="#" class="btn btn-sm btn-outline-dark rounded rounded-0 fw-bold shadow-none">More Facilities >>></a>
- 		</div>
- 	</div>
- </div>
-
-
- <h2 class="mt-5 pt-4 mb-4 text-center fw-bold h-font">TESTIMONIALS</h2>
-
- <div class="container mt-5">
-    <div class="swiper swiper-testimonials">
-      <div class="swiper-wrapper mb-5">
-
-        <div class="swiper-slide bg-white p-4">
-          <div class="profile d-flex align-items-center mb-3">
-          	<img src="{{ asset("img/facilities/stars.png") }}" width="30px">
-          	<h6 class="m-0 ms-2">Random user1</h6>
-          </div>
-          <p>
-          	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-          	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-          	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          	consequat.
-          </p>
-          <div class="rating">
-          	<i class="bi bi-star-fill text-warning"></i>
-    		<i class="bi bi-star-fill text-warning"></i>
-    		<i class="bi bi-star-fill text-warning"></i>
-    		<i class="bi bi-star-fill text-warning"></i>
-          </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <div class="swiper-slide bg-white p-4">
-          <div class="profile d-flex align-items-center mb-3">
-          	<img src="{{ asset("img/facilities/stars.png") }}" width="30px">
-          	<h6 class="m-0 ms-2">Random user1</h6>
-          </div>
-          <p>
-          	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-          	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-          	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          	consequat.
-          </p>
-          <div class="rating">
-          	<i class="bi bi-star-fill text-warning"></i>
-    		<i class="bi bi-star-fill text-warning"></i>
-    		<i class="bi bi-star-fill text-warning"></i>
-    		<i class="bi bi-star-fill text-warning"></i>
-          </div>
-        </div>
-
-        <div class="swiper-slide bg-white p-4">
-          <div class="profile d-flex align-items-center mb-3">
-          	<img src="{{ asset("img/facilities/stars.png") }}" width="30px">
-          	<h6 class="m-0 ms-2">Random user1</h6>
-          </div>
-          <p>
-          	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-          	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-          	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          	consequat.
-          </p>
-          <div class="rating">
-          	<i class="bi bi-star-fill text-warning"></i>
-    		<i class="bi bi-star-fill text-warning"></i>
-    		<i class="bi bi-star-fill text-warning"></i>
-    		<i class="bi bi-star-fill text-warning"></i>
-          </div>
-        </div>
-
-      </div>
-      <div class="swiper-pagination"></div>
     </div>
- </div>
-
-
- <h2 class="mt-5 pt-4 mb-4 text-center fw-bold h-font">OUR ROOMS</h2>
-
- <div class="container">
- 	<div class="row">
- 		<div class="col-lg-8 col-md-8 p-4 mb-lg-0 mb-3 bg-white rounded">
- 		<iframe class="w-100 rounded" height="320px" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63225.996807740055!2d80.97815907936754!3d7.934196847392783!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3afb456e05e5a4c9%3A0x72cd1cfea9d4d0a9!2sPolonnaruwa%20Ancient%20City!5e0!3m2!1sen!2slk!4v1659525623039!5m2!1sen!2slk" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
- 		</div>
- 		<div class="col-lg-4 col-md-4 ">
- 			<div class="bg-white p-4 rounded">
- 				<h5>Call us</h5>
- 				<a href="tel: +94768799665" class="d-inline-block mb-2 text-decoration-none text-dark"><i class="bi bi-telephone-fill"></i> +94 768799665</a>
- 				<br>
- 				<a href="tel: +94768799665" class="d-inline-block mb-2 text-decoration-none text-dark"><i class="bi bi-telephone-fill"></i> +94 768799665</a>
- 			</div>
- 			<div class="bg-white p-4 rounded">
- 				<h5>Follow us</h5>
- 				<a href="#" class="d-inline-block mb-3">
- 					<span class="badge bg-light text-dark fs-6 p-2">
- 						<i class="bi bi-twitter me-1"></i>Twitter
- 					</span>
- 				</a>
- 				<br>
- 				<a href="#" class="d-inline-block mb-3">
- 					<span class="badge bg-light text-dark fs-6 p-2">
- 						<i class="bi bi-facebook me-1"></i>Facebook
- 					</span>
- 				</a>
- 				<br>
- 				<a href="#" class="d-inline-block">
- 					<span class="badge bg-light text-dark fs-6 p-2">
- 						<i class="bi bi-instagram me-1"></i>Instagram
- 					</span>
- 				</a>
- 			</div>
- 		</div>
- 	</div>
- </div>
-@include('template.custom.include._footer')
-<br>
-
-    <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
-
+    <input type="text" name="" id="testInp" value="0" hidden>
+    <div class="wavesbottom">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+            <path fill="#0099ff" fill-opacity="1"
+                d="M0,224L48,213.3C96,203,192,181,288,154.7C384,128,480,96,576,122.7C672,149,768,235,864,234.7C960,235,1056,149,1152,117.3C1248,85,1344,107,1392,117.3L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z">
+            </path>
+        </svg>
+    </div>
     <script>
-      var swiper = new Swiper(".swiper-container", {
-        spaceBetween: 30,
-        effect: "fade",
-        loop: true,
-        autoplay: {
-        	delay: 3500,
-        	disableOnInteraction: false,
-        }
-      });
+        $(document).ready(function() {
+            $('#saveBtn').click(function() {
+                var test = $('#testInp').val();
 
-      var swiper = new Swiper(".swiper-testimonials", {
-        effect: "coverflow",
-        grabCursor: true,
-        centeredSlides: true,
-        slidesPerView: "auto",
-        slidesPerView: "3",
-        loop: true,
-        coverflowEffect: {
-          rotate: 50,
-          stretch: 0,
-          depth: 100,
-          modifier: 1,
-          slideShadows: false,
-        },
-        pagination: {
-          el: ".swiper-pagination",
-        },
-        breakpoints: {
-        	320: {
-        		slidesPerView: 1,
-        	},
-        	640: {
-        		slidesPerView: 1,
-        	},
-        	768: {
-        		slidesPerView: 2,
-        	},
-        	1024: {
-        		slidesPerView: 3,
-        	},
-        }
-      });
+                if (test == 0) {
+                    $("#hotel-details").show();
+                    $("#backBtn").show();
+                    $("#owner-details").hide();
+                    $('#testInp').attr('value', '1');
+                    $('#saveBtn').attr('value', 'Save');
+                } else {
+                    $('#authForm').submit();
+                }
+            });
+            $('#backBtn').click(function() {
+                $('#testInp').attr('value', '0');
+
+                $("#hotel-details").hide();
+                $("#owner-details").show();
+                $('#saveBtn').attr('value', 'Continue');
+                $('#backBtn').hide();
+            });
+        });
     </script>
 @endsection

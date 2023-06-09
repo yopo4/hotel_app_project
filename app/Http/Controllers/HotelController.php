@@ -45,28 +45,29 @@ class HotelController extends Controller
             return redirect()->route('waiting')->with('failed', 'You can\'t create other hotels.');
         }
         $rules = [
-            "name" => ["required","max:255"],
-            "address" => ["required","max:500"],
-            "country" => ["required","not_regex:/Select a country/"],
-            "city" => ["required"],
-            "phone" => ["required","max:20"],
-            "email" => ["required"],
-            "stars" => ["required","min:1","max:5"],
+            "hotel_name" => ["required","max:255"],
+            "hotel_address" => ["required","max:500"],
+            "hotel_country" => ["required","not_regex:/Select a country/"],
+            "hotel_city" => ["required","not_regex:/Select a city/"],
+            "hotel_phone" => ["required","max:20"],
+            "hotel_email" => ["required","email"],
+            "hotel_stars" => ["required","min:1","max:5"],
         ];
         $messages = [
             "country.not_regex" => "The country field is required.",
+            "city.not_regex" => "The city field is required.",
         ];
 
         $this->validate($request, $rules, $messages);
         $hotel = Hotel::create([
             'user_id' => auth()->user()->id,
-            'name' => $request->name,
-            'country' => $request->country,
-            'city' => $request->city,
-            'address' => $request->address,
-            'phone' => $request->phone,
-            'email' => $request->email,
-            'stars' => $request->stars
+            'name' => $request->input('hotel_name'),
+            'country' => $request->input('hotel_country'),
+            'city' => $request->input('hotel_city'),
+            'address' => $request->input('hotel_address'),
+            'phone' => $request->input('hotel_phone'),
+            'email' => $request->input('hotel_email'),
+            'stars' => $request->input('hotel_stars')
         ]);
         DB::table('users')->where('id', '=', $hotel->user_id)->update(['hotel_id'=>$hotel->id]);
         // $this->hotelRepository->setOwnerId(auth()->user()->id);
@@ -80,9 +81,9 @@ class HotelController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Hotel $hotel)
     {
-        //
+        return view('hotel.show', compact('hotel'));
     }
 
     /**

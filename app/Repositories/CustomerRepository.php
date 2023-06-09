@@ -41,7 +41,7 @@ class CustomerRepository
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => bcrypt($request->birthdate),
+            'password' => bcrypt('Pa$$w0rd!'),
             'role' => 'Customer',
             'random_key' => Str::random(60)
         ]);

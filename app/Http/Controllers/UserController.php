@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateCustomerRequest;
 use App\Models\Customer;
 use App\Models\User;
 use App\Models\Hotel;
+use App\Models\Room;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -67,14 +68,15 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        $hotel = Hotel::where('user_id', $user->id)->first();
+        $user->update(['hotel_id'=>null]);
+        $hotel = DB::table('hotels')->select('*')->where('user_id', '=', $user->id)->first();
         if ($user->role == "Customer") {
             $customer = Customer::where('user_id', $user->id)->first();
             $customer->delete();
         } elseif ($hotel != null) {
-            $hotel->delete();
+            $user->forceDelete();
+            $hotel->forceDelete();
         }
-        $user->delete();
         return redirect()->route('user.index')->with('success', 'User ' . $user->name . ' deleted!');
     }
 

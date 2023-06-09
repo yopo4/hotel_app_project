@@ -10,6 +10,7 @@ use App\Models\Type;
 use App\Repositories\ImageRepository;
 use App\Repositories\RoomRepository;
 use Carbon\Carbon;
+use App\Models\Hotel;
 use Illuminate\Http\Request;
 
 class RoomController extends Controller
@@ -23,11 +24,12 @@ class RoomController extends Controller
 
     public function index(Request $request)
     {
+        $hotels = Hotel::all();
         if ($request->ajax()) {
 
             return $this->roomRepository->getRoomsDatatable($request);
         }
-        return view('room.index');
+        return view('room.index', compact('hotels'));
     }
 
     public function create()

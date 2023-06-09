@@ -73,7 +73,7 @@
                     </div>
                 </ul>
 
-            </div> 
+            </div>
             <div class="d-flex justify-content-end">
                 <div class="dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="{{ auth()->user()->getAvatar() }}" class="rounded-circle img-thumbnail"
@@ -82,6 +82,9 @@
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
                     <li><a class="dropdown-item"
                             href="{{ route('user.show', ['user' => auth()->user()->id]) }}">Profil</a>
+                    </li>
+                    <li><a class="dropdown-item"
+                            href="{{ route('home') }}">Home</a>
                     </li>
                     <li><a class="dropdown-item" href="#">Activity</a></li>
                     <li><a class="dropdown-item" href="#">Setting</a></li>

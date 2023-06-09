@@ -17,6 +17,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\RoomsGenerationController;
 use App\Http\Controllers\TransactionRoomReservationController;
+use App\Http\Controllers\SearchingController;
 use App\Http\Controllers\RoomStatusController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TypeController;
@@ -38,6 +39,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/test', 'test');
 
+// Route::post('/home', 'SearchingController@index')->name('home');
+// Route::post('/homef', 'SearchingController@homeSearch')->name('home.filtred');
+// Route::post('/', 'SearchingController@index')->name('home');
+Route::get('/', [SearchingController::class, 'index'])->name('home');
+
 Route::controller(EmailController::class)->group(function() {
     Route::get('/send/{name}/{senderEmail}/{receiverEmail}/{message}','send');
 });
@@ -52,6 +58,9 @@ Route::group(['middleware' => ['auth', 'checkRole:Super', 'validation']], functi
     Route::resource('user', UserController::class);
 });
 
+Route::group(['middleware' => ['auth', 'checkRole:Customer,Super,Admin', 'validation']], function () {
+    Route::resource('hotel', HotelController::class);
+});
 Route::group(['middleware' => ['auth', 'checkRole:Super,Admin', 'validation']], function () {
     Route::post('/room/{room}/image/upload', [ImageController::class, 'store'])->name('image.store');
     Route::delete('/image/{image}', [ImageController::class, 'destroy'])->name('image.destroy');
@@ -67,6 +76,8 @@ Route::group(['middleware' => ['auth', 'checkRole:Super,Admin', 'validation']], 
         Route::post('/{customer}/{room}/payDownPayment', [TransactionRoomReservationController::class, 'payDownPayment'])->name('payDownPayment');
     });
 
+    Route::resource('searching', SearchingController::class);
+
     Route::post('/generate', 'RoomsGenerationController@generate')->name('generate');
 
     Route::resource('customer', CustomerController::class);
@@ -75,7 +86,6 @@ Route::group(['middleware' => ['auth', 'checkRole:Super,Admin', 'validation']], 
     Route::resource('roomstatus', RoomStatusController::class);
     Route::resource('transaction', TransactionController::class);
     Route::resource('facility', FacilityController::class);
-    Route::resource('hotel', HotelController::class);
 
     Route::get('/payment', [PaymentController::class, 'index'])->name('payment.index');
     Route::get('/payment/{payment}/invoice', [PaymentController::class, 'invoice'])->name('payment.invoice');
@@ -87,7 +97,7 @@ Route::group(['middleware' => ['auth', 'checkRole:Super,Admin', 'validation']], 
     Route::get('/get-dialy-guest/{year}/{month}/{day}', [ChartController::class, 'dialyGuest'])->name('chart.dialyGuest');
 });
 
-Route::group(['middleware' => ['auth', 'checkRole:Super,Admin,Customer', 'validation']], function () {
+Route::group(['middleware' => ['auth', 'checkRole:Super,Admin', 'validation']], function () {
     Route::resource('user', UserController::class)->only([
         'show'
     ]);
@@ -103,22 +113,26 @@ Route::group(['middleware' => ['auth', 'checkRole:Super,Admin,Customer', 'valida
     Route::get('/notification-to/{id}', [NotificationsController::class, 'routeTo'])->name('notification.routeTo');
 });
 
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::any('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::view('/login', 'auth.login')->name('login');
-Route::view('/register', 'auth.register')->name('register');
-Route::view('/choose', 'auth.choose')->name('choose');
 Route::post('/postLogin', [AuthController::class, 'postLogin'])->name('postlogin');
+
+Route::view('/choose', 'auth.choose')->name('choose');
+
+Route::view('/register', 'auth.register')->name('register');
 Route::post('/admin_registration', [AuthController::class, 'storeAdmin'])->name('auth.store');
-Route::post('/add_hotel', [HotelController::class, 'store'])->name('hotel.store');
 Route::view('/form_hotel', 'auth.hotel')->name('hotel.form');
+Route::post('/add_hotel', [HotelController::class, 'store'])->name('hotel.store');
+
+Route::view('/customer_register', 'auth.customer.register')->name('custom.register');
+Route::post('/custom_registration', [AuthController::class, 'storeCustomer'])->name('auth.customer.store');
 
 Route::get('/waiting', [AuthController::class, 'waiting'])->name('waiting');
 
 Route::get('/email_form/{receiverEmail}', [EmailController::class, 'index'])->name('email_form');
 Route::get('/send_email', [EmailController::class, 'Send'])->name('email.send');
 
-Route::view('/', 'auth.login')->name('home');
 
 Route::get('/sendEvent', function () {
     $superAdmins = User::where('role', 'Super')->get();

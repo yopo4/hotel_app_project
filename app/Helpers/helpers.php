@@ -2,11 +2,48 @@
 
 namespace App\Helpers;
 
+use App\Models\Room;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 
 class Helper
 {
+    public static function getRoomType($id)
+    {
+        $data = collect();
+        $rooms = Room::where('hotel_id', '=', $id)->get();
+        foreach ($rooms as $room ) {
+            if ($room->capacity == 1 && !$data->contains('Single room')) {
+                $data->push('Single room');
+            } if ($room->capacity == 2 && !$data->contains('Double room')) {
+                $data->push('Double room');
+            } if ($room->capacity == 3 && !$data->contains('Triple room')) {
+                $data->push('Triple room');
+            } if ($room->capacity == 4 && !$data->contains('Room for more than three persons')) {
+                $data->push('Room for more than three persons');
+            }
+        }
+        return $data;
+    }
+    public static function numberOfRooms($id)
+    {
+        $number = Room::where('hotel_id', '=', $id)->count();
+        return $number;
+    }
+
+    public static function showRoomPrice($id)
+    {
+        $roomPrices = Room::select('price')->where('hotel_id', '=', $id)->orderBy('price', 'asc')->get();
+
+        $min = $roomPrices->first();
+        $max = $roomPrices->last();
+
+        $minPrice = $min ? $min->price : null;
+        $maxPrice = $max ? $max->price : null;
+
+        return [$minPrice, $maxPrice];
+    }
+
     public static function convertToDirhame($price)
     {
         $price_dirhame = "Dh. " . number_format($price, 0, '', ' ');
@@ -78,6 +115,6 @@ class Helper
 
     public static function getTotalPayment($day, $price)
     {
-        return $day * ($price*50/100);
+        return $day * ($price * 50 / 100);
     }
 }

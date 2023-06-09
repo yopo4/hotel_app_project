@@ -17,7 +17,7 @@ return new class extends Migration
 
         Schema::create('hotels', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable();
+            $table->foreignId('user_id')->nullable()->onDelete('cascade')->onUpdate('cascade');
             $table->string('name');
             $table->string('address');
             $table->string('country');

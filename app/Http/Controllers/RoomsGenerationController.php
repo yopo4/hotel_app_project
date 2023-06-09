@@ -15,7 +15,7 @@ class RoomsGenerationController extends Controller
             $hotel_id = $hotel->id;
         }
         if (auth()->user()->role == 'Super') {
-            $hotel_id = $request->input('hotel_id');
+            $hotel_id = $request->input('hotel');
         }
         $numberOfRooms = DB::table('rooms')->select('*')->where('hotel_id', '=', $hotel_id)->count();
         $firstCount = $numberOfRooms + 1;
